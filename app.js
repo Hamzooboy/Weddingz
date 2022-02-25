@@ -7,6 +7,7 @@ const app = express();
 // const catchAsync = require('utils/catchAsync');
 
 const userRouter = require('./Routes/userRoutes');
+const venueRouter = require('./Routes/venueRoutes');
 const bodyParser = require('body-parser');
 
 app.use(express.json());
@@ -24,6 +25,8 @@ app.get('/', function(req, res) {
 })
 
 app.use('/api/users', userRouter)
+app.use('/api/v1', venueRouter)
+
 
 
 

@@ -3,6 +3,8 @@
  const AppError = require('../utils/appError');
  //  const catchAsync = require('utils/catchAsync');
  const sendEmail = require('../utils/email')
+ const crypto = require('crypto');
+ const { catchAsync } = require('catch-async-express');
 
  exports.signup = async(req, res, next) => {
      try {
@@ -74,13 +76,16 @@
 
      //send it to user's mail
      const resetURL = `${req.protocol}://${req.get('host')}/api/users/resetPassword/${resetToken}`;
-     const message = `Forgot your Password? Submit a patch request with your password and confirm password to ${resetURL}`
+     //  console.log(resetToken);
+     //  console.log(resetURL);
+     const message = `Forgot your Password? Submit a patch request with your password and confirm password to ${resetURL}.`
 
      try {
 
          await sendEmail({
              email: user.email,
-             subject: 'Your password reset token(valid for 10 min)'
+             subject: 'Your password reset token(valid for 10 min)',
+             message
          })
 
          res.status(200).json({
@@ -97,6 +102,36 @@
      }
  }
 
- exports.resetPassword = async function(req, res, next) {
+ exports.resetPassword = catchAsync(async function(req, res, next) {
 
- }
+     //Get the user based on token
+     const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+
+
+     const user = await User.findOne({ passwordResetToken: hashedToken, passwordResetExpires: { $gt: Date.now() } })
+
+     //If the user don't exist
+     if (!user) {
+         return next(new AppError('Token is invalid or has expired', 400))
+     }
+     //if user exist
+     user.password = req.body.password;
+     user.confirmPassword = req.body.confirmPassword;
+     user.passwordResetToken = undefined;
+     user.passwordResetExpires = undefined;
+     await user.save();
+
+
+     //Login user by sending JWT
+
+     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+         expiresIn: '3 days',
+     })
+
+     res.status(200).json({
+         status: 'success',
+         token
+     })
+
+
+ })
