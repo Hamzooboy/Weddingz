@@ -4,6 +4,8 @@ const { catchAsync } = require('catch-async-express');
 const upload = require('../utils/multer');
 const cloudinary = require('../utils/cloudinary');
 const fs = require('fs');
+const { restart } = require('nodemon');
+const { findByIdAndDelete } = require('../Models/venueModel');
 
 
 exports.createVenue = async function(req, res, next) {
@@ -58,4 +60,48 @@ exports.getAllVenues = async function(req, res, next) {
         })
 
     }
+    return next();
+}
+
+exports.updateVenue = async function(req, res, next) {
+    try {
+        const updatedVenue = await Venue.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        })
+        res.status(200).json({
+            status: 'success',
+            data: {
+                updatedVenue
+            }
+        })
+
+
+
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err
+        })
+    }
+    return next();
+
+
+}
+exports.deleteVenue = async function(req, res, next) {
+    try {
+        const venue = await Venue.findByIdAndDelete(req.params.id);
+        res.status(200).json({
+            status: 'success',
+            data: {
+                venue: null
+            }
+        })
+    } catch (err) {
+        res.status(400).json({
+            status: 'error',
+            message: err
+        })
+    }
+
 }

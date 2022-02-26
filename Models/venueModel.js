@@ -14,6 +14,10 @@ const venueSchema = new mongoose.Schema({
         min: [1, "A Venue must have rating above 1"],
         max: [5, "A Venue must have rating less than 5"]
     },
+    ratingsQuantity: {
+        type: Number,
+        default: 0
+    },
     slug: {
         type: String
     },
@@ -36,7 +40,11 @@ const venueSchema = new mongoose.Schema({
             latitude: {
                 type: Number
             }
+        },
+        contactNo: {
+            type: Number
         }
+
     },
     imgCover: {
         type: String
@@ -44,6 +52,17 @@ const venueSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now()
+    },
+    category: {
+        type: String
+    },
+    location: {
+        type: String
+    },
+    comments: {
+        type: String,
+        trim: true,
+        default: 'Nice Place worth every penny'
     }
 
 })
