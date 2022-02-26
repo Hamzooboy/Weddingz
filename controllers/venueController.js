@@ -10,23 +10,35 @@ const { findByIdAndDelete } = require('../Models/venueModel');
 
 exports.createVenue = async function(req, res, next) {
     try {
+        // console.log('sadsad')
+        console.log(req.body);
+        const { title } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
 
-        const urls = []
+        const urls = [];
         const files = req.files;
+
         for (const file of files) {
             const { path } = file;
             const newPath = await uploader(path)
-            urls.push(newPath);
+            urls.push(newPath.url);
             fs.unlinkSync(path);
+
+            // console.log(req.files)
         }
 
 
 
-        const newVenue = await Venue.create(req.body)
+        const newVenue = await Venue.create({
+            title,
+            // phir yaha comma dal kay sari alg alg likh de ok cake thank you
+
+            photos: urls
+        })
         res.status(200).json({
             status: 'success',
             data: {
+
                 venue: newVenue
             }
 
@@ -34,7 +46,7 @@ exports.createVenue = async function(req, res, next) {
     } catch (err) {
         res.status(400).json({
             status: 'Failed',
-            message: err
+            message: err.message
         })
 
 

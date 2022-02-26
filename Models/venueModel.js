@@ -5,8 +5,8 @@ const venueSchema = new mongoose.Schema({
     title: {
         type: String,
         required: [true, 'A Banquet Hall must have a name'],
-        unique: true,
-        trim: true,
+        // unique: true,
+        // trim: true,
     },
     ratingsAverage: {
         type: Number,
@@ -22,16 +22,14 @@ const venueSchema = new mongoose.Schema({
         type: String
     },
 
-    photos: {
-        type: [{ String }]
-    },
+    photos: [{ type: String }],
     description: {
         type: String
     },
     info: {
         price: {
             type: String,
-            required: [true, 'A venue must have a price']
+            // required: [true, 'A venue must have a price']
         },
         coords: {
             longitude: {
