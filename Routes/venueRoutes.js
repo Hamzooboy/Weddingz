@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/venues', upload.array('photos'), venueController.createVenue)
     // router.post('/venues', venueController.createVenue)
 router.get('/venues', venueController.getAllVenues)
-router.patch('/venues/:id', venueController.updateVenue);
+router.patch('/venues/:id', upload.array('photos'), venueController.updateVenue);
 router.delete('/venues/:id', venueController.deleteVenue)
 
 

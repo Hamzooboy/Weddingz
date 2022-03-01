@@ -26,33 +26,43 @@ const venueSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    info: {
-        price: {
-            type: String,
+
+    price: {
+        type: Number
             // required: [true, 'A venue must have a price']
+    },
+    coords: {
+        longitude: {
+            type: Number
         },
-        coords: {
-            longitude: {
-                type: Number
-            },
-            latitude: {
-                type: Number
-            }
-        },
-        contactNo: {
+        latitude: {
             type: Number
         }
-
     },
+    contactNo: {
+        type: Number
+    }
+
+    ,
     imgCover: {
         type: String
     },
     createdAt: {
         type: Date,
-        default: Date.now()
+        default: Date.now(),
+        select: false
     },
     category: {
-        type: String
+        type: String,
+        required: [true, 'Please specify a category for this venue'],
+        enum: {
+            values: [
+                'Farmhouses',
+                'Banquet Halls',
+                'Hotels'
+
+            ]
+        }
     },
     location: {
         type: String
@@ -61,7 +71,8 @@ const venueSchema = new mongoose.Schema({
         type: String,
         trim: true,
         default: 'Nice Place worth every penny'
-    }
+    },
+
 
 })
 

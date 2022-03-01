@@ -12,7 +12,7 @@ exports.createVenue = async function(req, res, next) {
     try {
         // console.log('sadsad')
         console.log(req.body);
-        const { title } = req.body;
+        const { title, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
 
         const urls = [];
@@ -31,7 +31,18 @@ exports.createVenue = async function(req, res, next) {
 
         const newVenue = await Venue.create({
             title,
-            // phir yaha comma dal kay sari alg alg likh de ok cake thank you
+            ratingsAverage,
+            ratingsQuantity,
+            slug,
+            description,
+            price,
+            coords,
+            contactNo,
+            createdAt,
+            category,
+            location,
+            comments,
+            imgCover,
 
             photos: urls
         })
@@ -47,7 +58,9 @@ exports.createVenue = async function(req, res, next) {
         res.status(400).json({
             status: 'Failed',
             message: err.message
+
         })
+        console.log(err)
 
 
     }
@@ -55,8 +68,54 @@ exports.createVenue = async function(req, res, next) {
 }
 
 exports.getAllVenues = async function(req, res, next) {
-    try {
-        const allVenues = await Venue.find();
+    try { //Building Query
+        const queryObj = {...req.query };
+        const excludedFields = ['page', 'sort', 'limit', 'fields'];
+        excludedFields.forEach(function(el) {
+                delete queryObj[el];
+            })
+            // console.log(req.query, queryObj)
+
+        // Advance Filtering
+        let queryStr = JSON.stringify(queryObj);
+        queryStr = queryStr.replace(/\b(gt|gte|lt\lte)\b/g, match => `$${match}`);
+
+
+        console.log(JSON.parse(queryStr));
+
+
+        let query = Venue.find(JSON.parse(queryStr));
+        //Sorting
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            query = query.sort(sortBy)
+        } else {
+            query = query.sort('-createdAt')
+        }
+        //LimitingFields
+        if (req.query.fields) {
+            const fields = req.query.fields.split(',').join(' ');
+            query = query.select(fields)
+        } else {
+            query = query.select('-__v')
+        }
+
+        const page = req.query.page * 1 || 1;
+        const limit = req.query.limit * 1 || 100;
+        const skip = (page - 1) * limit;
+
+        query = query.skip(skip).limit(limit);
+
+        if (req.query.page) {
+            const numVenues = await Venue.countDocuments();
+            if (skip > numVenues) throw new Error('This page does not exist')
+        }
+
+
+
+
+        //ExecuteQuery
+        const allVenues = await query;
 
         res.status(200).json({
             status: 'success',
@@ -77,7 +136,8 @@ exports.getAllVenues = async function(req, res, next) {
 
 exports.updateVenue = async function(req, res, next) {
     try {
-        const updatedVenue = await Venue.findByIdAndUpdate(req.params.id, req.body, {
+        console.log(req.body)
+        const updatedVenue = await Venue.findByIdAndUpdate({ _id: req.params.id }, req.body, {
             new: true,
             runValidators: true
         })
