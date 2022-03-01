@@ -6,6 +6,7 @@ const cloudinary = require('../utils/cloudinary');
 const fs = require('fs');
 const { restart } = require('nodemon');
 const { findByIdAndDelete } = require('../Models/venueModel');
+const APIFeatures = require('../utils/APIFeatures');
 
 
 exports.createVenue = async function(req, res, next) {
@@ -67,55 +68,18 @@ exports.createVenue = async function(req, res, next) {
     return next();
 }
 
+
+
+
+
+
+
 exports.getAllVenues = async function(req, res, next) {
-    try { //Building Query
-        const queryObj = {...req.query };
-        const excludedFields = ['page', 'sort', 'limit', 'fields'];
-        excludedFields.forEach(function(el) {
-                delete queryObj[el];
-            })
-            // console.log(req.query, queryObj)
-
-        // Advance Filtering
-        let queryStr = JSON.stringify(queryObj);
-        queryStr = queryStr.replace(/\b(gt|gte|lt\lte)\b/g, match => `$${match}`);
-
-
-        console.log(JSON.parse(queryStr));
-
-
-        let query = Venue.find(JSON.parse(queryStr));
-        //Sorting
-        if (req.query.sort) {
-            const sortBy = req.query.sort.split(',').join(' ');
-            query = query.sort(sortBy)
-        } else {
-            query = query.sort('-createdAt')
-        }
-        //LimitingFields
-        if (req.query.fields) {
-            const fields = req.query.fields.split(',').join(' ');
-            query = query.select(fields)
-        } else {
-            query = query.select('-__v')
-        }
-
-        const page = req.query.page * 1 || 1;
-        const limit = req.query.limit * 1 || 100;
-        const skip = (page - 1) * limit;
-
-        query = query.skip(skip).limit(limit);
-
-        if (req.query.page) {
-            const numVenues = await Venue.countDocuments();
-            if (skip > numVenues) throw new Error('This page does not exist')
-        }
-
-
-
-
+    try {
         //ExecuteQuery
-        const allVenues = await query;
+
+        const features = new APIFeatures(Venue.find(), req.query).filter().sort().limitFields().paginate();
+        const allVenues = await features.query;
 
         res.status(200).json({
             status: 'success',
