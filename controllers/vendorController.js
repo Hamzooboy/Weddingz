@@ -97,6 +97,7 @@ exports.updateVendor = async function(req, res, next) {
             message: err.message
         })
     }
+    return next();
 }
 
 exports.deleteVendor = async function(req, res, next) {
@@ -114,4 +115,149 @@ exports.deleteVendor = async function(req, res, next) {
             message: err.message
         })
     }
+    return next();
+}
+exports.getbridalWear = async function(req, res, next) {
+    try {
+        const vendor = await Vendor.aggregate([{
+            $match: { category: 'Bridal Wear' }
+        }])
+        res.status(200).json({
+            status: 'success',
+            results: vendor.length,
+            data: {
+                vendor
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+    return next();
+}
+exports.getgroomWear = async function(req, res, next) {
+    try {
+        const vendor = await Vendor.aggregate([{
+            $match: { category: 'Groom Wear' }
+        }])
+        res.status(200).json({
+            status: 'success',
+            results: vendor.length,
+            data: {
+                vendor
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+    return next();
+}
+exports.getPhotographers = async function(req, res, next) {
+    try {
+        const vendor = await Vendor.aggregate([{
+            $match: { category: 'Photographers' }
+        }])
+        res.status(200).json({
+            status: 'success',
+            results: vendor.length,
+            data: {
+                vendor
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+    return next();
+}
+
+exports.getParlors = async function(req, res, next) {
+    try {
+        const vendor = await Vendor.aggregate([{
+            $match: { category: 'Parlors' }
+        }])
+        res.status(200).json({
+            status: 'success',
+            results: vendor.length,
+            data: {
+                vendor
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+    return next();
+
+}
+exports.getDecors = async function(req, res, next) {
+    try {
+        const vendor = await Vendor.aggregate([{
+            $match: { category: 'Decor' }
+        }])
+        res.status(200).json({
+            status: 'success',
+            results: vendor.length,
+            data: {
+                vendor
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+    return next();
+
+}
+exports.getCatering = async function(req, res, next) {
+    try {
+        const vendor = await Vendor.aggregate([{
+            $match: { category: 'Catering' }
+        }])
+        res.status(200).json({
+            status: 'success',
+            results: vendor.length,
+            data: {
+                vendor
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+    return next();
+
+}
+exports.getHoneymoon = async function(req, res, next) {
+    try {
+        const vendor = await Vendor.aggregate([{
+            $match: { category: 'Honeymoon' }
+        }])
+        res.status(200).json({
+            status: 'success',
+            results: vendor.length,
+            data: {
+                vendor
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+    return next();
 }
