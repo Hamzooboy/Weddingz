@@ -50,7 +50,7 @@ exports.createVenue = async function(req, res, next) {
             kitchen,
             parking,
             website,
-            refundPolicy
+            refundPolicy,
 
             photos: urls
         })
@@ -146,5 +146,68 @@ exports.deleteVenue = async function(req, res, next) {
             message: err
         })
     }
+    return next();
 
+}
+
+exports.getBanquetHalls = async function(req, res, next) {
+    try {
+        const venue = await Venue.aggregate([{
+            $match: { category: 'Banquet Halls' }
+        }])
+        res.status(200).json({
+            status: 'success',
+            data: {
+                venue
+            }
+
+        })
+    } catch (err) {
+        res.status(400).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+    return next();
+}
+
+exports.getfarmHouses = async function(req, res, next) {
+    try {
+        const venue = await Venue.aggregate([{
+            $match: { category: 'Farmhouses' }
+        }])
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                venue
+            }
+        })
+
+    } catch (err) {
+        res.status(404).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
+
+exports.getHotels = async function(req, res, next) {
+    try {
+        const venue = await Venue.aggregate([{
+            $match: { category: 'Hotels' }
+        }])
+        res.status(200).json({
+            status: 'success',
+            data: {
+                venue
+            }
+        })
+
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
 }
