@@ -8,7 +8,9 @@ const app = express();
 
 const userRouter = require('./Routes/userRoutes');
 const venueRouter = require('./Routes/venueRoutes');
+const vendorRouter = require('./Routes/vendorRoutes');
 const bodyParser = require('body-parser');
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -26,6 +28,7 @@ app.get('/', function(req, res) {
 
 app.use('/api/users', userRouter)
 app.use('/api/v1', venueRouter)
+app.use('/api/v1', vendorRouter)
 
 
 
