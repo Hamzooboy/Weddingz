@@ -13,7 +13,7 @@ exports.createVenue = async function(req, res, next) {
     try {
         // console.log('sadsad')
         console.log(req.body);
-        const { title, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover } = req.body;
+        const { title, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
 
         const urls = [];
@@ -44,6 +44,13 @@ exports.createVenue = async function(req, res, next) {
             location,
             comments,
             imgCover,
+            cateringPolicy,
+            DJPolicy,
+            decorPolicy,
+            kitchen,
+            parking,
+            website,
+            refundPolicy
 
             photos: urls
         })

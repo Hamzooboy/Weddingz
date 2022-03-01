@@ -72,6 +72,29 @@ const venueSchema = new mongoose.Schema({
         trim: true,
         default: 'Nice Place worth every penny'
     },
+    cateringPolicy: {
+        type: String
+    },
+    DJPolicy: {
+        type: String
+    },
+    decorPolicy: {
+        type: String
+    },
+    refundPolicy: {
+        type: String
+    },
+    kitchen: {
+        type: String
+    },
+    parking: {
+        type: String
+    },
+    website: {
+        type: String
+    }
+
+
 
 
 })
