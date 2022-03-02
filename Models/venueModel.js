@@ -99,6 +99,13 @@ const venueSchema = new mongoose.Schema({
 
 })
 
+venueSchema.pre('save', function(next) {
+    this.slug = slugify(this.title, {
+        lower: true
+    })
+    next();
+})
+
 
 
 const Venue = mongoose.model('Venues', venueSchema)

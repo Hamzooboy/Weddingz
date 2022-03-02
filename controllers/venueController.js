@@ -12,7 +12,7 @@ const APIFeatures = require('../utils/APIFeatures');
 exports.createVenue = async function(req, res, next) {
     try {
         // console.log('sadsad')
-        console.log(req.body);
+        // console.log(req.body);
         const { title, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
 
@@ -107,7 +107,7 @@ exports.getAllVenues = async function(req, res, next) {
 
 exports.updateVenue = async function(req, res, next) {
     try {
-        console.log(req.body)
+        // console.log(req.body)
         const updatedVenue = await Venue.findByIdAndUpdate({ _id: req.params.id }, req.body, {
             new: true,
             runValidators: true

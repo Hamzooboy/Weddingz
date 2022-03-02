@@ -86,7 +86,7 @@ const vendorSchema = new mongoose.Schema({
         trim: true
     },
     industryExperience: {
-        type: String
+        type: Number
     },
     paymentTerms: {
         type: String
@@ -96,6 +96,14 @@ const vendorSchema = new mongoose.Schema({
     }
 
 
+})
+
+
+vendorSchema.pre('save', function(next) {
+    this.slug = slugify(this.title, {
+        lower: true
+    })
+    next();
 })
 
 const Vendor = mongoose.model('Vendors', vendorSchema);
