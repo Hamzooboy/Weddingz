@@ -3,9 +3,21 @@ class APIFeatures {
         this.query = query;
         this.queryString = queryString;
     }
+    search() {
+        const keyword = this.queryString.keyword ? {
+            title: {
+                $regex: this.queryString.keyword,
+                $options: 'i'
+            }
+        } : {}
+
+        this.query = this.query.find({...keyword });
+        return this;
+
+    }
     filter() {
         const queryObj = {...this.queryString };
-        const excludedFields = ['page', 'sort', 'limit', 'fields'];
+        const excludedFields = ['page', 'sort', 'limit', 'fields', 'keyword'];
         excludedFields.forEach(function(el) {
                 delete queryObj[el];
             })

@@ -14,7 +14,7 @@ router.post('/venues', upload.array('photos'), venueController.createVenue)
 router.get('/venues', venueController.getAllVenues)
 router.get('/venues/banquetHalls', venueController.getBanquetHalls)
 router.get('/venues/farmHouses', venueController.getfarmHouses);
-router.get('/venues/Hotels', venueController.getHotels);
+router.get('/venues/marquees', venueController.getMarquees);
 router.patch('/venues/:id', upload.array('photos'), venueController.updateVenue);
 router.delete('/venues/:id', venueController.deleteVenue)
 

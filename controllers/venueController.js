@@ -85,7 +85,7 @@ exports.getAllVenues = async function(req, res, next) {
     try {
         //ExecuteQuery
 
-        const features = new APIFeatures(Venue.find(), req.query).filter().sort().limitFields().paginate();
+        const features = new APIFeatures(Venue.find(), req.query).search().filter().sort().limitFields().paginate();
         const allVenues = await features.query;
 
         res.status(200).json({
@@ -192,10 +192,10 @@ exports.getfarmHouses = async function(req, res, next) {
     }
 }
 
-exports.getHotels = async function(req, res, next) {
+exports.getMarquees = async function(req, res, next) {
     try {
         const venue = await Venue.aggregate([{
-            $match: { category: 'Hotels' }
+            $match: { category: 'Marquees' }
         }])
         res.status(200).json({
             status: 'success',

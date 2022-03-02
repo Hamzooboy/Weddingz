@@ -60,13 +60,17 @@ exports.createVendor = async function(req, res, next) {
 }
 exports.getVendor = async function(req, res, next) {
     try {
-        const features = new APIFeatures(Vendor.find(), req.query).filter().sort().limitFields().paginate();
+        const features = new APIFeatures(Vendor.find(), req.query).search().filter().sort().limitFields().paginate();
         const allVendors = await features.query;
+        // let filteredVendorsCount = allVendors.length;
 
         res.status(200).json({
             status: 'success',
+            results: allVendors.length,
             data: {
-                allVendors
+
+                allVendors,
+                // filteredVendorsCount
             }
         })
 

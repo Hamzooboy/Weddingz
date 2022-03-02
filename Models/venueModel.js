@@ -59,7 +59,7 @@ const venueSchema = new mongoose.Schema({
             values: [
                 'Farmhouses',
                 'Banquet Halls',
-                'Hotels'
+                'Marquees'
 
             ]
         }
