@@ -108,7 +108,7 @@ exports.getAllVenues = async function(req, res, next) {
 exports.updateVenue = async function(req, res, next) {
     try {
         // console.log(req.body)
-        const updatedVenue = await Venue.findByIdAndUpdate({ _id: req.params.id }, req.body, {
+        const updatedVenue = await Venue.findByIdAndUpdate({ _id: req.params.id }, req.body, photos, {
             new: true,
             runValidators: true
         })
@@ -124,7 +124,7 @@ exports.updateVenue = async function(req, res, next) {
     } catch (err) {
         res.status(500).json({
             status: 'error',
-            message: err
+            message: err.message
         })
     }
     return next();

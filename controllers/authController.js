@@ -27,12 +27,12 @@
                  user: newUser
              }
          });
-     } catch {
+     } catch (err) {
 
          res.status(404).json({
              status: 'error',
 
-             message: 'could not register user'
+             message: err.message
          })
      }
      next();
@@ -132,6 +132,28 @@
          status: 'success',
          token
      })
+
+
+ })
+
+
+ exports.protect = catchAsync(async function(req, res, next) {
+
+     //Getting Token and check if its true or correct
+     let token;
+     let flag = false;
+     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+         console.log(req.headers.authorization);
+         console.log(req.headers.authorization.startsWith('Bearer'));
+
+         token = req.headers.authorization.split(' ')[1];
+         flag = true;
+     }
+     console.log(token)
+     if (!flag) {
+         return next(new AppError('You are not logged in. Please log in to get access!'));
+
+     }
 
 
  })

@@ -22,3 +22,6 @@ router.delete('/vendors/:id', vendorController.deleteVendor);
 
 
 module.exports = router;
+
+
+//Bookings and Company(1:M) Model
