@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const app = express();
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const hpp = require('hpp');
+
 
 
 // const catchAsync = require('utils/catchAsync');
@@ -11,9 +16,17 @@ const userRouter = require('./Routes/userRoutes');
 const venueRouter = require('./Routes/venueRoutes');
 const vendorRouter = require('./Routes/vendorRoutes');
 const bodyParser = require('body-parser');
+const { ratingsAverage, ratingsQuantity, price, category } = require('./Models/venueModel')
 
-
+app.use(helmet());
 app.use(express.json());
+app.use(mongoSanitize());
+app.use(xss({
+    whitelist: [
+        ratingsAverage, ratingsQuantity, price, category
+    ]
+}));
+app.use(hpp());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     origin: '*'

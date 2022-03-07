@@ -27,8 +27,17 @@
          const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
              expiresIn: '3 days',
          })
+         const cookieOptions = {
+             expiresIn: '90 days',
+             //  secure: true,(only when we're in production phase)
+             httpOnly: true
+         }
+         if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+         res.cookie('jwt', token, cookieOptions)
 
          //  console.log(req.body)
+         //  password = undefined;
 
          res.status(200).json({
              status: 'success',
@@ -65,6 +74,15 @@
      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
          expiresIn: '3 days',
      })
+     const cookieOptions = {
+         expiresIn: '90 days',
+         //  secure: true,(only when we're in production phase)
+         httpOnly: true
+     }
+     if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+
+     res.cookie('jwt', token, cookieOptions)
 
      res.status(200).json({
          status: 'success',
@@ -137,6 +155,14 @@
      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
          expiresIn: '3 days',
      })
+     const cookieOptions = {
+         expiresIn: '90 days',
+         //  secure: true,(only when we're in production phase)
+         httpOnly: true
+     }
+     if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+     res.cookie('jwt', token, cookieOptions)
 
      res.status(200).json({
          status: 'success',
@@ -216,6 +242,16 @@
      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
          expiresIn: '3 days',
      })
+
+     const cookieOptions = {
+         expiresIn: '90 days',
+         //  secure: true,(only when we're in production phase)
+         httpOnly: true
+     }
+     if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+
+     res.cookie('jwt', token, cookieOptions)
 
      res.status(200).json({
          status: 'success',
