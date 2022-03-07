@@ -1,5 +1,8 @@
+// const Review = require('../models/reviewModel')
 const Venue = require('../Models/venueModel');
 const AppError = require('../utils/appError');
+
+
 const { catchAsync } = require('catch-async-express');
 const upload = require('../utils/multer');
 const cloudinary = require('../utils/cloudinary');
@@ -8,12 +11,11 @@ const { restart } = require('nodemon');
 const { findByIdAndDelete } = require('../Models/venueModel');
 const APIFeatures = require('../utils/APIFeatures');
 
-
 exports.createVenue = async function(req, res, next) {
     try {
         // console.log('sadsad')
         // console.log(req.body);
-        const { title, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking } = req.body;
+        const { title, userID, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
 
         const urls = [];
@@ -31,6 +33,7 @@ exports.createVenue = async function(req, res, next) {
 
 
         const newVenue = await Venue.create({
+            userID,
             title,
             ratingsAverage,
             ratingsQuantity,
@@ -54,6 +57,8 @@ exports.createVenue = async function(req, res, next) {
 
             photos: urls
         })
+
+
         res.status(200).json({
             status: 'success',
             data: {
@@ -103,6 +108,30 @@ exports.getAllVenues = async function(req, res, next) {
 
     }
     return next();
+}
+exports.getVenue = async function(req, res, next) {
+    try {
+        // const userID = req.body.userID
+        const venue = await Venue.findById(req.params.id).populate({
+            path: 'reviews',
+            model: Review
+        });
+
+        if (!venue) {
+            return next(new AppError('No Venue with that ID', 404))
+        }
+        res.status(200).json({
+            status: 'success',
+            data: {
+                venue
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
 }
 
 exports.updateVenue = async function(req, res, next) {

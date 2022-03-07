@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+// const Review = require('../Models/reviewModel')
 
 const venueSchema = new mongoose.Schema({
+    userID: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Signup'
+    }],
     title: {
         type: String,
         required: [true, 'A Banquet Hall must have a name'],
@@ -64,9 +69,16 @@ const venueSchema = new mongoose.Schema({
             ]
         }
     },
-    location: {
-        type: String
-    },
+    // location: {
+    //     type: {
+    //         type: String,
+    //         default: 'Point',
+    //         enum: ['Point']
+    //     },
+    //     coordinates: [Number],
+    //     address: String
+
+    // },
     comments: {
         type: String,
         trim: true,
@@ -97,6 +109,15 @@ const venueSchema = new mongoose.Schema({
 
 
 
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+})
+venueSchema.virtual('reviews', {
+    ref: 'Review',
+    foreignField: 'venue',
+    localField: '_id',
+    // model: Review
 })
 
 venueSchema.pre('save', function(next) {
@@ -105,7 +126,13 @@ venueSchema.pre('save', function(next) {
     })
     next();
 })
-
+venueSchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'userID',
+        select: '-__v'
+    })
+    next();
+})
 
 
 const Venue = mongoose.model('Venues', venueSchema)

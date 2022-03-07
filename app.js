@@ -15,6 +15,7 @@ const hpp = require('hpp');
 const userRouter = require('./Routes/userRoutes');
 const venueRouter = require('./Routes/venueRoutes');
 const vendorRouter = require('./Routes/vendorRoutes');
+const reviewRouter = require('./Routes/reviewRoutes');
 const bodyParser = require('body-parser');
 const { ratingsAverage, ratingsQuantity, price, category } = require('./Models/venueModel')
 
@@ -53,6 +54,7 @@ app.get('/', function(req, res) {
 app.use('/api/users', userRouter)
 app.use('/api/v1', venueRouter)
 app.use('/api/v1', vendorRouter)
+app.use('/api/v1', reviewRouter)
 
 
 

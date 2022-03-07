@@ -10,8 +10,9 @@ const upload = multer({ dest: 'uploads/' })
 const router = express.Router();
 
 
-router.post('/venues', upload.array('photos'), venueController.createVenue)
+router.post('/venues', upload.array('photos'), authController.protect, venueController.createVenue)
     // router.post('/venues', venueController.createVenue)
+router.get('/getVenue/:id', venueController.getVenue)
 router.get('/venues', authController.protect, venueController.getAllVenues)
 router.get('/venues/banquetHalls', venueController.getBanquetHalls)
 router.get('/venues/farmHouses', venueController.getfarmHouses);
