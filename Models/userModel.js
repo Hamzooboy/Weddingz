@@ -47,6 +47,11 @@ const userSchema = new mongoose.Schema({
     },
     passwordChangedAt: {
         type: Date
+    },
+    active: {
+        type: Boolean,
+        default: true,
+        select: false
     }
 
 })
@@ -57,6 +62,11 @@ userSchema.pre('save', async function(next) {
 
     this.password = await bcrypt.hash(this.password, 12)
     this.confirmPassword = undefined;
+})
+
+userSchema.pre(/^find/, async function(next) {
+    this.find({ active: { $ne: false } })
+    next();
 })
 
 userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
