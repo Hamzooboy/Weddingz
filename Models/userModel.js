@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema({
         unique: [true, 'This Email is already registered'],
         validate: [validator.isEmail, 'Please enter a valid email address']
     },
+    role: {
+        type: String,
+        enum: ['user', 'customer', 'vendor', 'admin'],
+        default: 'user'
+    },
     password: {
         type: String,
         required: true,

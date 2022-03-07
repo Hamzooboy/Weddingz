@@ -17,7 +17,7 @@ router.get('/venues/banquetHalls', venueController.getBanquetHalls)
 router.get('/venues/farmHouses', venueController.getfarmHouses);
 router.get('/venues/marquees', venueController.getMarquees);
 router.patch('/venues/:id', upload.array('photos'), venueController.updateVenue);
-router.delete('/venues/:id', venueController.deleteVenue)
+router.delete('/venues/:id', authController.protect, authController.restrictTo('admin'), venueController.deleteVenue)
 
 
 

@@ -8,6 +8,12 @@
  const { catchAsync } = require('catch-async-express');
  const dotenv = require('dotenv');
 
+
+
+ const createSendToken = function(user, statusCode, res) {
+
+ }
+
  exports.signup = async(req, res, next) => {
      try {
          const newUser = await User.create({
@@ -15,7 +21,8 @@
              email: req.body.email,
              password: req.body.password,
              confirmPassword: req.body.confirmPassword,
-             passwordChangedAt: req.body.passwordChangedAt
+             passwordChangedAt: req.body.passwordChangedAt,
+             role: req.body.role
          });
          const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
              expiresIn: '3 days',
@@ -178,6 +185,42 @@
      //Grant Access to Protected Route
      req.user = freshUser
      next();
+
+
+ })
+
+ exports.restrictTo = function(...roles) {
+     return function(req, res, next) {
+         if (!roles.includes(req.user.role)) {
+             return next(new AppError('You do not have permission to perform this action', 403))
+         }
+         next();
+     }
+ }
+
+ exports.updatePassword = catchAsync(async function(req, res, next) {
+     //Get user from collection
+     const user = await User.findById(req.user.id).select('+password');
+
+     //Check if the posted current password is correct
+     if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
+         return next(new AppError('Your current password is incorrect', 401))
+     }
+     //if So update password
+     user.password = req.body.password;
+     user.confirmPassword = req.body.confirmPassword;
+     await user.save();
+
+
+     //Log in User and Send JWT
+     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+         expiresIn: '3 days',
+     })
+
+     res.status(200).json({
+         status: 'success',
+         token
+     })
 
 
  })
