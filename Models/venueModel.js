@@ -115,7 +115,7 @@ const venueSchema = new mongoose.Schema({
 
 });
 venueSchema.virtual('reviews', {
-    ref: 'Review',
+    ref: 'Reviews',
     foreignField: 'venue',
     localField: '_id',
     // model: Review

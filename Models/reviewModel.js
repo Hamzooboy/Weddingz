@@ -20,13 +20,13 @@ const reviewSchema = new mongoose.Schema({
         },
         venue: {
             type: mongoose.Schema.ObjectId,
-            ref: 'Venue',
+            ref: 'Venues',
 
             // required: [true, 'Review Must belong to a venue']
         },
         vendor: {
             type: mongoose.Schema.ObjectId,
-            ref: 'Vendor',
+            ref: 'Vendors',
             // required: [true, 'Review must belong to a Vendor']
         },
         user: {
@@ -42,25 +42,33 @@ const reviewSchema = new mongoose.Schema({
 
 );
 reviewSchema.pre(/^find/, function(next) {
+    // this.populate({
+    //     path: 'venue',
+    //     select: 'title',
+    //     // model: Venues
+
+
+    // }).populate({
+    //     path: 'vendor',
+    //     select: 'title',
+    //     // model: Vendors
+    // }).populate({
+    //     path: 'user',
+    //     select: 'name',
+    //     // model: Signup
+    // })
+
     this.populate({
-        path: 'venue',
-        select: 'title',
-        model: Venue
-
-
-    }).populate({
-        path: 'vendor',
-        select: 'title',
-        model: Vendor
-    }).populate({
         path: 'user',
         select: 'name',
-        model: Signup
+        // model: Venues
+
     })
 
-    next();
+
+    next()
 })
 
-const Review = mongoose.model('Review', reviewSchema)
+const Review = mongoose.model('Reviews', reviewSchema)
 
-// module.exports = Review
+module.exports = Review

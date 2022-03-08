@@ -113,7 +113,10 @@ exports.getAllVenues = async function(req, res, next) {
 exports.getVenue = async function(req, res, next) {
     try {
         // const userID = req.body.userID
-        const venue = await Venue.findById(req.params.id)
+        const venue = await Venue.findById(req.params.id).populate({
+            path: 'reviews',
+            ref: 'Reviews'
+        })
 
 
         if (!venue) {
