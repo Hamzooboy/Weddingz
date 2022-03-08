@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-// const Review = require('../Models/reviewModel')
+const Review = require('../Models/reviewModel')
 
 const venueSchema = new mongoose.Schema({
     userID: [{
@@ -112,7 +112,8 @@ const venueSchema = new mongoose.Schema({
 }, {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
-})
+
+});
 venueSchema.virtual('reviews', {
     ref: 'Review',
     foreignField: 'venue',

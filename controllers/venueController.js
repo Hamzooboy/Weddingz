@@ -1,6 +1,7 @@
 // const Review = require('../models/reviewModel')
 const Venue = require('../Models/venueModel');
 const AppError = require('../utils/appError');
+const mongoose = require('mongoose');
 
 
 const { catchAsync } = require('catch-async-express');
@@ -112,10 +113,8 @@ exports.getAllVenues = async function(req, res, next) {
 exports.getVenue = async function(req, res, next) {
     try {
         // const userID = req.body.userID
-        const venue = await Venue.findById(req.params.id).populate({
-            path: 'reviews',
-            model: Review
-        });
+        const venue = await Venue.findById(req.params.id)
+
 
         if (!venue) {
             return next(new AppError('No Venue with that ID', 404))
