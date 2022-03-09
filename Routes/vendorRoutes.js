@@ -7,7 +7,7 @@ const upload = multer({ dest: 'uploads/' });
 const router = express.Router();
 
 
-router.post('/vendors', upload.array('photos'), vendorController.createVendor);
+router.post('/vendors', upload.array('photos'), authController.protect, authController.restrictTo('admin', 'vendor'), vendorController.createVendor);
 router.get('/vendors', vendorController.getVendor);
 router.get('/vendors/bridalWear', vendorController.getbridalWear)
 router.get('/vendors/groomWear', vendorController.getgroomWear);
@@ -19,10 +19,11 @@ router.get('/vendors/honeymoon', vendorController.getHoneymoon)
 router.get('/vendors/:id', vendorController.getSingleVendor)
 
 
-router.patch('/vendors/:id', upload.array('photos'), vendorController.updateVendor);
-router.delete('/vendors/:id', vendorController.deleteVendor);
+router.patch('/vendors/:id', upload.array('photos'), authController.protect, authController.restrictTo('admin', 'vendor'), vendorController.updateVendor);
+router.delete('/vendors/:id', authController.protect, authController.restrictTo('admin', 'vendor'), vendorController.deleteVendor);
 
 router.post('/vendors/:vendorId/reviews', authController.protect, authController.restrictTo('customer'), reviewController.createReview)
+router.get('/vendors/:vendorId/reviews', reviewController.getAllReviews)
 
 
 

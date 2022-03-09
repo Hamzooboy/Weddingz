@@ -2,9 +2,18 @@ const mongoose = require('mongoose');
 
 const Review = require('../Models/reviewModel');
 const { catchAsync } = require('catch-async-express');
+const factory = require('./handlerFactory')
 
 exports.getAllReviews = catchAsync(async function(req, res, next) {
-    const reviews = await Review.find();
+    let filter = {};
+    if (req.params.venueId) {
+        filter = { venue: req.params.venueId }
+    }
+    if (req.params.vendorId) {
+        filter = { vendor: req.params.vendorId }
+    }
+
+    const reviews = await Review.find(filter);
     res.status(200).json({
         status: 'success',
         results: reviews.length,
@@ -19,6 +28,9 @@ exports.createReview = catchAsync(async function(req, res, next) {
     if (!req.body.venue) {
         req.body.venue = req.params.venueId;
     }
+    if (!req.body.vendor) {
+        req.body.vendor = req.params.vendorId;
+    }
     if (!req.body.user) {
         req.body.user = req.user.id;
     }
@@ -31,3 +43,7 @@ exports.createReview = catchAsync(async function(req, res, next) {
         }
     })
 })
+
+
+exports.deleteReview = factory.deleteOne(Review)
+exports.updateReview = factory.updateOne(Review)

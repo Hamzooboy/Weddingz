@@ -2,6 +2,7 @@
 const Venue = require('../Models/venueModel');
 const AppError = require('../utils/appError');
 const mongoose = require('mongoose');
+const factory = require('./handlerFactory');
 
 
 const { catchAsync } = require('catch-async-express');
@@ -136,50 +137,55 @@ exports.getVenue = async function(req, res, next) {
     }
 }
 
-exports.updateVenue = async function(req, res, next) {
-    try {
-        // console.log(req.body)
-        const updatedVenue = await Venue.findByIdAndUpdate({ _id: req.params.id }, req.body, photos, {
-            new: true,
-            runValidators: true
-        })
-        res.status(200).json({
-            status: 'success',
-            data: {
-                updatedVenue
-            }
-        })
+
+exports.updateVenue = factory.updateAd(Venue);
+// exports.updateVenue = async function(req, res, next) {
+//     try {
+//         // console.log(req.body)
+//         const updatedVenue = await Venue.findByIdAndUpdate({ _id: req.params.id }, req.body, photos, {
+//             new: true,
+//             runValidators: true
+//         })
+//         res.status(200).json({
+//             status: 'success',
+//             data: {
+//                 updatedVenue
+//             }
+//         })
 
 
 
-    } catch (err) {
-        res.status(500).json({
-            status: 'error',
-            message: err.message
-        })
-    }
-    return next();
+//     } catch (err) {
+//         res.status(500).json({
+//             status: 'error',
+//             message: err.message
+//         })
+//     }
+//     return next();
 
 
-}
-exports.deleteVenue = async function(req, res, next) {
-    try {
-        const venue = await Venue.findByIdAndDelete(req.params.id);
-        res.status(200).json({
-            status: 'success',
-            data: {
-                venue: null
-            }
-        })
-    } catch (err) {
-        res.status(400).json({
-            status: 'error',
-            message: err
-        })
-    }
-    return next();
+// }
 
-}
+
+exports.deleteVenue = factory.deleteOne(Venue)
+    // exports.deleteVenue = async function(req, res, next) {
+    //     try {
+    //         const venue = await Venue.findByIdAndDelete(req.params.id);
+    //         res.status(200).json({
+    //             status: 'success',
+    //             data: {
+    //                 venue: null
+    //             }
+    //         })
+    //     } catch (err) {
+    //         res.status(400).json({
+    //             status: 'error',
+    //             message: err
+    //         })
+    //     }
+    //     return next();
+
+// }
 
 exports.getBanquetHalls = async function(req, res, next) {
     try {

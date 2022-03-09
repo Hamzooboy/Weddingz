@@ -5,6 +5,7 @@ const upload = require('../utils/multer');
 const cloudinary = require('../utils/cloudinary');
 const fs = require('fs');
 const APIFeatures = require('../utils/APIFeatures');
+const factory = require('./handlerFactory')
 
 exports.createVendor = async function(req, res, next) {
     try {
@@ -105,45 +106,47 @@ exports.getSingleVendor = catchAsync(async function(req, res, next) {
 
 
 
+exports.updateVendor = factory.updateAd(Vendor)
+    // exports.updateVendor = async function(req, res, next) {
+    //     try {
+    //         const updatedVendor = await Vendor.findByIdAndUpdate({ _id: req.params.id }, req.body, {
+    //             new: true,
+    //             runValidators: true
+    //         })
+    //         res.status(200).json({
+    //             status: 'success',
+    //             data: {
+    //                 updatedVendor
+    //             }
+    //         })
+    //     } catch (err) {
+    //         res.status(500).json({
+    //             status: 'error',
+    //             message: err.message
+    //         })
+    //     }
+    //     return next();
+    // }
 
-exports.updateVendor = async function(req, res, next) {
-    try {
-        const updatedVendor = await Vendor.findByIdAndUpdate({ _id: req.params.id }, req.body, {
-            new: true,
-            runValidators: true
-        })
-        res.status(200).json({
-            status: 'success',
-            data: {
-                updatedVendor
-            }
-        })
-    } catch (err) {
-        res.status(500).json({
-            status: 'error',
-            message: err.message
-        })
-    }
-    return next();
-}
+exports.deleteVendor = factory.deleteOne(Vendor)
 
-exports.deleteVendor = async function(req, res, next) {
-    try {
-        const vendor = await Vendor.findByIdAndDelete(req.params.id);
-        res.status(200).json({
-            status: 'success',
-            data: {
-                vendor: null
-            }
-        })
-    } catch (err) {
-        res.status(500).json({
-            status: 'error',
-            message: err.message
-        })
-    }
-    return next();
-}
+// exports.deleteVendor = async function(req, res, next) {
+//     try {
+//         const vendor = await Vendor.findByIdAndDelete(req.params.id);
+//         res.status(200).json({
+//             status: 'success',
+//             data: {
+//                 vendor: null
+//             }
+//         })
+//     } catch (err) {
+//         res.status(500).json({
+//             status: 'error',
+//             message: err.message
+//         })
+//     }
+//     return next();
+// }
 exports.getbridalWear = async function(req, res, next) {
     try {
         const vendor = await Vendor.aggregate([{

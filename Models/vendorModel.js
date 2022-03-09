@@ -5,7 +5,7 @@ const Review = require('../Models/reviewModel')
 const vendorSchema = new mongoose.Schema({
     userID: [{
         type: mongoose.Schema.ObjectId,
-        ref: 'Signup'
+        ref: 'Users'
     }],
     title: {
         type: String,
@@ -106,6 +106,10 @@ const vendorSchema = new mongoose.Schema({
     toObject: { virtuals: true }
 
 })
+
+vendorSchema.index({ price: 1, ratingsAverage: -1 })
+vendorSchema.index({ slug: 1 })
+
 
 vendorSchema.virtual('reviews', {
     ref: 'Reviews',

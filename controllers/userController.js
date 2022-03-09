@@ -1,6 +1,7 @@
 const User = require('../Models/userModel');
 const { catchAsync } = require('catch-async-express');
 const AppError = require('../utils/appError')
+const factory = require('./handlerFactory')
 
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};
@@ -55,3 +56,18 @@ exports.deleteMe = catchAsync(async function(req, res, next) {
 
     })
 })
+
+exports.getMe = catchAsync(async function(req, res, next) {
+    req.params.id = req.user.id;
+    const user = await User.findById(req.params.id);
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    })
+})
+
+exports.deleteUser = factory.deleteOne(User)
+    //Do not update password with this
+exports.updateUser = factory.updateOne(User);

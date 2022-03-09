@@ -96,5 +96,5 @@ userSchema.methods.changedPasswordAfter = function(JWTTimesstamp) {
 }
 
 
-const Signup = mongoose.model('Signup', userSchema);
+const Signup = mongoose.model('Users', userSchema);
 module.exports = Signup;
