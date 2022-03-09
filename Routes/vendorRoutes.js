@@ -1,5 +1,7 @@
 const express = require('express');
 const vendorController = require('../controllers/vendorController');
+const reviewController = require('../controllers/reviewController');
+const authController = require('../controllers/authController')
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const router = express.Router();
@@ -14,10 +16,15 @@ router.get('/vendors/parlors', vendorController.getParlors)
 router.get('/vendors/decors', vendorController.getDecors)
 router.get('/vendors/catering', vendorController.getCatering)
 router.get('/vendors/honeymoon', vendorController.getHoneymoon)
+router.get('/vendors/:id', vendorController.getSingleVendor)
 
 
 router.patch('/vendors/:id', upload.array('photos'), vendorController.updateVendor);
 router.delete('/vendors/:id', vendorController.deleteVendor);
+
+router.post('/vendors/:vendorId/reviews', authController.protect, authController.restrictTo('customer'), reviewController.createReview)
+
+
 
 
 

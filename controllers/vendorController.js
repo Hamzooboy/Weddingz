@@ -83,6 +83,29 @@ exports.getVendor = async function(req, res, next) {
     return next();
 
 }
+
+exports.getSingleVendor = catchAsync(async function(req, res, next) {
+    const vendor = await Vendor.findById(req.params.id).populate({
+        path: 'reviews',
+        ref: 'Reviews'
+    })
+
+    if (!vendor) {
+        return next(new AppError('No vendor with that ID exists'));
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            vendor
+        }
+    })
+})
+
+
+
+
+
 exports.updateVendor = async function(req, res, next) {
     try {
         const updatedVendor = await Vendor.findByIdAndUpdate({ _id: req.params.id }, req.body, {

@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const Review = require('../Models/reviewModel')
 
 const vendorSchema = new mongoose.Schema({
+    userID: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Signup'
+    }],
     title: {
         type: String,
         required: [true, 'A vendor must have its title'],
@@ -96,12 +101,30 @@ const vendorSchema = new mongoose.Schema({
     }
 
 
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+
+})
+
+vendorSchema.virtual('reviews', {
+    ref: 'Reviews',
+    foreignField: 'vendor',
+    localField: '_id'
 })
 
 
 vendorSchema.pre('save', function(next) {
     this.slug = slugify(this.title, {
         lower: true
+    })
+    next();
+})
+
+vendorSchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'userID',
+        select: '-__v'
     })
     next();
 })

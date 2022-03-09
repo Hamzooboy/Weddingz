@@ -1,6 +1,7 @@
 const express = require('express');
 const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
+const reviewController = require('../controllers/reviewController');
 // const catchAsync = require('utils/catchAsync');
 
 
@@ -17,6 +18,8 @@ router.patch('/updateMe', authController.protect, userController.updateMe)
 router.get('/getAllUsers', userController.getAllUsers);
 router.delete('/deleteMe', authController.protect, userController.deleteMe);
 
+
+//router.post('/:tourId/reviews', authController.protect, authController.restrictTo('customer'), reviewController.createReview)
 
 
 
