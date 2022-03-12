@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const Review = require('../Models/reviewModel')
+const Company = require('./companyModel')
 
 const venueSchema = new mongoose.Schema({
     userID: [{

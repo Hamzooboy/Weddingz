@@ -3,6 +3,7 @@ const Venue = require('../Models/venueModel');
 const AppError = require('../utils/appError');
 const mongoose = require('mongoose');
 const factory = require('./handlerFactory');
+const Company = require('../Models/companyModel')
 
 
 const { catchAsync } = require('catch-async-express');
@@ -15,6 +16,12 @@ const APIFeatures = require('../utils/APIFeatures');
 
 exports.createVenue = async function(req, res, next) {
     try {
+        if (!req.body.company) {
+            req.body.company = req.params.companyId;
+        }
+        if (!req.body.user) {
+            req.body.user = req.user.id;
+        }
         // console.log('sadsad')
         // console.log(req.body);
         const { title, userID, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking } = req.body;
@@ -91,8 +98,12 @@ exports.createVenue = async function(req, res, next) {
 exports.getAllVenues = async function(req, res, next) {
     try {
         //ExecuteQuery
+        let filter = {};
+        if (req.params.companyId) {
+            filter = { venue: req.params.companyId }
+        }
 
-        const features = new APIFeatures(Venue.find(), req.query).search().filter().sort().limitFields().paginate();
+        const features = new APIFeatures(Venue.find(filter), req.query).search().filter().sort().limitFields().paginate();
         const allVenues = await features.query;
 
         res.status(200).json({
