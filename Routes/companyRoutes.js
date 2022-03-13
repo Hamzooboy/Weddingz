@@ -7,8 +7,9 @@ const router = express.Router();
 
 router.get('/getCompany/:id', companyController.getCompany)
 router.get('/getCompanies', companyController.getAllCompanies);
+router.patch('/updateCompany/:id', authController.protect, authController.restrictTo('admin'), companyController.updateCompany);
 
-// router.post('/createCompany', authController.protect, authController.restrictTo('admin', 'vendor'), companyController.createCompany)
+router.post('/createCompany', authController.protect, authController.restrictTo('admin', 'vendor'), companyController.createCompany)
 
 
 

@@ -9,15 +9,20 @@ const Venue = require('../Models/venueModel');
 
 
 exports.getAllCompanies = async function(req, res, next) {
-    try { // let filter = {};
+    try {
+
+        // console.log('asdasdsadsa')
+        // let filter = {};
 
         // if (req.params.companyId) {
         //     filter: { company: req.params.companyId }
         // }
         const features = new APIFeatures(Company.find(), req.query).search().filter().sort().limitFields().paginate();
-        const allCompanies = await features.query;
 
-        res.status(200).json({
+        const allCompanies = await features.query;
+        // console.log(<i class="fas fa-battery-three-quarters    "></i>)
+
+        return res.status(200).json({
             status: 'success',
             results: allCompanies.length,
             data: {
@@ -25,6 +30,7 @@ exports.getAllCompanies = async function(req, res, next) {
             }
         })
     } catch (err) {
+
         res.status(500).json({
             status: 'error',
             message: err.message
@@ -65,10 +71,8 @@ exports.createCompany = async function(req, res, next) {
 }
 
 exports.getCompany = catchAsync(async function(req, res, next) {
-    const company = await Company.findById(req.params.id).populate({
-        path: 'venues',
-        ref: 'Venues'
-    })
+
+    const company = await Company.findById(req.params.id)
 
     if (!company) {
         return next(new AppError('No Company exists with this ID', 404))
@@ -82,6 +86,6 @@ exports.getCompany = catchAsync(async function(req, res, next) {
     })
     next();
 })
-
-exports.updateCompany = factory.updateAd(Company);
+exports.updateCompany = factory.updateOne(Company)
+    // exports.updateCompany = factory.updateAd(Company);
 exports.deleteCompany = factory.deleteOne(Company);

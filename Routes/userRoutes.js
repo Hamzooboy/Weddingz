@@ -13,18 +13,18 @@ router.post('/login', authController.login);
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 
-router.use(authController.protect)
+// router.use(authController.protect)
 
-router.patch('/updatePassword', authController.updatePassword);
-router.get('/me', userController.getMe);
-router.patch('/updateMe', userController.updateMe)
-router.delete('/deleteMe', userController.deleteMe);
+router.patch('/updatePassword', authController.protect, authController.updatePassword);
+router.get('/me', authController.protect, userController.getMe);
+router.patch('/updateMe', authController.protect, userController.updateMe)
+router.delete('/deleteMe', authController.protect, userController.deleteMe);
 
-router.use(authController.restrictTo('admin'))
-router.delete('/deleteUser/:id', userController.deleteUser);
-router.patch('/updateUser/:id', userController.updateUser);
+// router.use(authController.restrictTo('admin'))
+router.delete('/deleteUser/:id', authController.protect, authController.restrictTo('admin'), userController.deleteUser);
+router.patch('/updateUser/:id', authController.protect, authController.restrictTo('admin'), userController.updateUser);
 
-router.get('/getAllUsers', userController.getAllUsers);
+router.get('/getAllUsers', authController.protect, authController.restrictTo('admin'), userController.getAllUsers);
 
 
 //router.post('/:tourId/reviews', authController.protect, authController.restrictTo('customer'), reviewController.createReview)
