@@ -52,7 +52,7 @@ companySchema.pre(/^find/, function(next) {
         path: 'userID',
         select: '-__v'
     })
-    next()
+    next();
 })
 
 

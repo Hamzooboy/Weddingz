@@ -100,7 +100,7 @@ exports.getAllVenues = async function(req, res, next) {
         //ExecuteQuery
         let filter = {};
         if (req.params.companyId) {
-            filter = { venue: req.params.companyId }
+            filter = { company: req.params.companyId }
         }
 
         const features = new APIFeatures(Venue.find(filter), req.query).search().filter().sort().limitFields().paginate();

@@ -2,6 +2,7 @@ const express = require('express');
 const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
 const reviewController = require('../controllers/reviewController');
+const venueController = require('../controllers/venueController');
 // const catchAsync = require('utils/catchAsync');
 
 
