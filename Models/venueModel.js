@@ -18,7 +18,8 @@ const venueSchema = new mongoose.Schema({
         type: Number,
         default: 4.5,
         min: [1, "A Venue must have rating above 1"],
-        max: [5, "A Venue must have rating less than 5"]
+        max: [5, "A Venue must have rating less than 5"],
+        set: val => Math.round(val * 10) / 10
     },
     ratingsQuantity: {
         type: Number,

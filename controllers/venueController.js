@@ -26,6 +26,7 @@ exports.createVenue = async function(req, res, next) {
         // console.log(req.body);
         const { title, userID, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
+        console.log(req.body.category)
 
         const urls = [];
         const files = req.files;

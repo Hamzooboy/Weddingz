@@ -17,7 +17,8 @@ const vendorSchema = new mongoose.Schema({
         type: Number,
         default: 4.5,
         min: [1, 'A vendor must have a rating 1 or above than 1'],
-        max: [5, 'Max Rating you can give is 5']
+        max: [5, 'Max Rating you can give is 5'],
+        set: val => Math.round(val * 10) / 10
     },
     ratingsQuantity: {
         type: Number,
