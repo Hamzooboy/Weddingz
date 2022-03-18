@@ -4,7 +4,7 @@ const authController = require('../controllers/authController')
 const router = express.Router();
 
 
-router.get('/getCheckoutSession/:venueID', authController.protect, bookingController.getCheckoutSession)
+router.get('/getCheckoutSession/:venueId', authController.protect, bookingController.getCheckoutSession)
 
 
 
