@@ -8,6 +8,10 @@ const venueSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Users'
     }],
+    company: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Company'
+    }],
     title: {
         type: String,
         required: [true, 'A Banquet Hall must have a name'],
@@ -136,7 +140,7 @@ venueSchema.pre('save', function(next) {
 venueSchema.pre(/^find/, function(next) {
     this.populate({
         path: 'userID',
-        select: '-__v'
+        select: 'name'
     })
     next();
 })

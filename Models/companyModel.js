@@ -4,10 +4,10 @@ const Venue = require('./venueModel')
 
 
 const companySchema = new mongoose.Schema({
-    userID: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'Users'
-    }],
+    // userID: [{
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Users'
+    // }],
 
 
 
@@ -16,10 +16,10 @@ const companySchema = new mongoose.Schema({
         required: [true, 'A company must have a name']
 
     },
-    venues: [{
-        type: mongoose.Schema.ObjectId,
-        ref: 'Venues'
-    }],
+    // venues: [{
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Venues'
+    // }],
     slug: {
         type: String
     },
@@ -40,6 +40,14 @@ const companySchema = new mongoose.Schema({
 
 })
 
+companySchema.virtual('Venuess', {
+    ref: 'Venues',
+    foreignField: 'company',
+    localField: '_id'
+
+})
+
+
 companySchema.pre('save', function(next) {
     this.slug = slugify(this.title, {
         lower: true
@@ -47,13 +55,13 @@ companySchema.pre('save', function(next) {
     next();
 })
 
-companySchema.pre(/^find/, function(next) {
-    this.populate({
-        path: 'userID',
-        select: '-__v'
-    })
-    next();
-})
+// companySchema.pre(/^find/, function(next) {
+//     this.populate({
+//         path: 'userID',
+//         select: '-__v'
+//     })
+//     next();
+// })
 
 
 const Company = mongoose.model('Company', companySchema);

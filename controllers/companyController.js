@@ -72,7 +72,10 @@ exports.createCompany = async function(req, res, next) {
 
 exports.getCompany = catchAsync(async function(req, res, next) {
 
-    const company = await Company.findById(req.params.id)
+    const company = await Company.findById(req.params.id).populate({
+        path: 'Venuess',
+        ref: 'Venues'
+    })
 
     if (!company) {
         return next(new AppError('No Company exists with this ID', 404))
