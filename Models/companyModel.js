@@ -38,14 +38,17 @@ const companySchema = new mongoose.Schema({
     },
     photos: [{ type: String }],
 
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
 
-companySchema.virtual('Venuess', {
+companySchema.virtual('companyVenues', {
     ref: 'Venues',
     foreignField: 'company',
     localField: '_id'
 
-})
+});
 
 
 companySchema.pre('save', function(next) {

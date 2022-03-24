@@ -4,14 +4,14 @@ const Review = require('../Models/reviewModel')
 const Company = require('./companyModel')
 
 const venueSchema = new mongoose.Schema({
-    userID: [{
+    userID: {
         type: mongoose.Schema.ObjectId,
         ref: 'Users'
-    }],
-    company: [{
+    },
+    company: {
         type: mongoose.Schema.ObjectId,
         ref: 'Company'
-    }],
+    },
     title: {
         type: String,
         required: [true, 'A Banquet Hall must have a name'],
