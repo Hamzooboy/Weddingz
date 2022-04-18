@@ -110,6 +110,11 @@ const venueSchema = new mongoose.Schema({
     },
     website: {
         type: String
+    },
+    isFeatured: {
+        type: Boolean,
+        default: false
+
     }
 
 

@@ -9,7 +9,7 @@ const factory = require('./handlerFactory')
 
 exports.createVendor = async function(req, res, next) {
     try {
-        const { title, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, servicesOffered, industryExperience, paymentTerms, travelCost } = req.body;
+        const { title, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, servicesOffered, industryExperience, paymentTerms, travelCost, isFeatured } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
 
         const urls = [];
@@ -42,6 +42,7 @@ exports.createVendor = async function(req, res, next) {
             industryExperience,
             paymentTerms,
             travelCost,
+            isFeatured,
             photos: urls
         })
         res.status(200).json({
@@ -166,6 +167,26 @@ exports.getbridalWear = async function(req, res, next) {
         })
     }
     return next();
+}
+
+exports.getFeaturedVendors = async function(req, res, next) {
+    try {
+        const vendor = await Vendor.aggregate([{
+            $match: { isFeatured: true }
+        }])
+        res.status(200).json({
+            status: 'success',
+            results: vendor.length,
+            data: {
+                vendor
+            }
+        })
+    } catch (err) {
+        res.status(404).json({
+            status: 'error',
+            message: err.message
+        })
+    }
 }
 exports.getgroomWear = async function(req, res, next) {
     try {

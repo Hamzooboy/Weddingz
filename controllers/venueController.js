@@ -24,7 +24,7 @@ exports.createVenue = async function(req, res, next) {
         }
         // console.log('sadsad')
         // console.log(req.body);
-        const { title, userID, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking, company } = req.body;
+        const { title, userID, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking, isFeatured, company } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
         console.log(req.body.category)
 
@@ -64,6 +64,7 @@ exports.createVenue = async function(req, res, next) {
             parking,
             website,
             refundPolicy,
+            isFeatured,
             company,
 
             photos: urls
@@ -199,7 +200,26 @@ exports.deleteVenue = factory.deleteOne(Venue)
     //     return next();
 
 // }
+exports.getFeaturedVenues = async function(req, res, next) {
+    try {
+        const venue = await Venue.aggregate([{
+            $match: { isFeatured: true }
+        }])
 
+        res.status(200).json({
+            status: 'success',
+            data: {
+                venue
+            }
+
+        })
+    } catch (err) {
+        res.status(400).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
 exports.getBanquetHalls = async function(req, res, next) {
     try {
         const venue = await Venue.aggregate([{

@@ -18,6 +18,7 @@ router.post('/venues', upload.array('photos'), authController.protect, authContr
     // router.post('/venues', venueController.createVenue)
 router.get('/getVenue/:id', venueController.getVenue)
 router.get('/venues', venueController.getAllVenues)
+router.get('/venues/featuredVenues', venueController.getFeaturedVenues)
 router.get('/venues/banquetHalls', venueController.getBanquetHalls)
 router.get('/venues/farmHouses', venueController.getfarmHouses);
 router.get('/venues/marquees', venueController.getMarquees);

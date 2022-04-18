@@ -99,6 +99,10 @@ const vendorSchema = new mongoose.Schema({
     },
     travelCost: {
         type: String
+    },
+    isFeatured: {
+        type: Boolean,
+        default: false
     }
 
 
