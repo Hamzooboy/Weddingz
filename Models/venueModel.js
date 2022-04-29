@@ -115,7 +115,66 @@ const venueSchema = new mongoose.Schema({
         type: Boolean,
         default: false
 
+    },
+    area: {
+        type: String
+    },
+    address: {
+        type: String
+    },
+    facebookUrl: {
+        type: String
+    },
+    instagramUrl: {
+        type: String
+    },
+    menu: {
+        title: {
+            type: String
+        },
+        price: {
+            type: String
+        },
+        foodItemOne: {
+            type: String
+        },
+        foodItemTwo: {
+            type: String
+        },
+        foodItemThree: {
+            type: String
+        },
+        foodItemFour: {
+            type: String
+        },
+        foodItemFive: {
+            type: String
+        },
+        foodItemSix: {
+            type: String
+        }
+
+    },
+    startingYear: {
+        type: String
+    },
+    advanceBooking: {
+        type: String,
+        min: [1, '1 should be a minimum value'],
+        max: [100, 'It cant be more than 100']
+    },
+    spacesAvailable: {
+        type: String
+    },
+    perHeadMorning: {
+        type: String
+    },
+    perHeadEvening: {
+        type: String
     }
+
+
+
 
 
 
