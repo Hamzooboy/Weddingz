@@ -103,6 +103,10 @@ const vendorSchema = new mongoose.Schema({
     isFeatured: {
         type: Boolean,
         default: false
+    },
+    isApproved: {
+        type: Boolean,
+        default: false
     }
 
 

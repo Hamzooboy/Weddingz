@@ -43,6 +43,7 @@ exports.createVendor = async function(req, res, next) {
             paymentTerms,
             travelCost,
             isFeatured,
+            isApproved,
             photos: urls
         })
         res.status(200).json({
