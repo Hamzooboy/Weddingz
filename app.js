@@ -19,6 +19,7 @@ const vendorRouter = require('./Routes/vendorRoutes');
 const reviewRouter = require('./Routes/reviewRoutes');
 const bookingRouter = require('./Routes/bookingRoutes');
 const companyRouter = require('./Routes/companyRoutes');
+const viewRouter = require('./Routes/viewRoutes');
 const bodyParser = require('body-parser');
 const { ratingsAverage, ratingsQuantity, price, category } = require('./Models/venueModel')
 
@@ -57,6 +58,8 @@ app.get('/', function(req, res) {
     });
 })
 
+
+app.use('/', viewRouter)
 app.use('/api/users', userRouter)
 app.use('/api/v1', venueRouter)
 app.use('/api/v1', vendorRouter)
@@ -69,7 +72,7 @@ app.use('/api/v1', bookingRouter)
 
 
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 6000;
 
 app.listen(port, function() {
     console.log(`App running on ${port}....`);

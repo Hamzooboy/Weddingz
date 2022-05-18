@@ -1,6 +1,7 @@
 const stripe = require('stripe')('sk_test_51KebqKLo3oIyoa1DRNIY3zKYVKHbcjPgWVkf4w5HCMDlFfduu2KYmmd3Sd9BytVcSk1j4nWKe7zRQm4fBciqSTm600cxBaLNdI')
 const Venue = require('../Models/venueModel');
 const Vendor = require('../Models/vendorModel')
+const Booking = require('../Models/bookingsModel')
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const { catchAsync } = require('catch-async-express');
@@ -16,7 +17,7 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
     //Creating Checkout Session
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        success_url: `${req.protocol}://${req.get('host')}/`,
+        success_url: `${req.protocol}://${req.get('host')}/?venue=${req.params.venueId}&user=${req.user.id}&price=${venue.price}`,
         cancel_url: `${req.protocol}://${req.get('host')}/venue/${venue.slug}`,
         customer_email: req.user.email,
         client_reference_id: req.params.venueId,
@@ -39,5 +40,15 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
 
     })
 
+
+})
+
+exports.createBookingCheckout = catchAsync(async function(req, res, next) {
+    const { venue, user, price } = req.query
+
+    if (!venue && !user && !price)
+        return next()
+    await Booking.create({ venue, user, price })
+    res.redirect(req.OriginalUrl.split('?')[0])
 
 })
