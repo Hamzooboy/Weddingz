@@ -9,7 +9,7 @@ const factory = require('./handlerFactory')
 
 exports.createVendor = async function(req, res, next) {
     try {
-        const { title, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, servicesOffered, industryExperience, paymentTerms, travelCost, isFeatured } = req.body;
+        const { title, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, servicesOffered, industryExperience, paymentTerms, travelCost, isFeatured, isApproved } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
 
         const urls = [];
@@ -129,6 +129,24 @@ exports.updateVendor = factory.updateAd(Vendor)
     //     }
     //     return next();
     // }
+
+exports.updateStatus = async function(req, res, next) {
+    try {
+        const updatedVendor = await Vendor.findByIdAndUpdate({ _id: req.params.id }, { isApproved: true })
+        res.status(200).json({
+            status: 'success',
+            data: {
+                updatedVendor
+            }
+        })
+
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
 
 exports.deleteVendor = factory.deleteOne(Vendor)
 
