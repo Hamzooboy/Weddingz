@@ -68,6 +68,8 @@ exports.getMe = catchAsync(async function(req, res, next) {
     })
 })
 
+exports.getUser = factory.getOne(User)
+
 exports.deleteUser = factory.deleteOne(User)
     //Do not update password with this
 exports.updateUser = factory.updateOne(User);
