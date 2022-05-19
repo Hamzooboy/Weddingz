@@ -45,6 +45,7 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
 
 exports.createBookingCheckout = catchAsync(async function(req, res, next) {
     const { venue, user, price } = req.query
+    console.log(venue, user, price);
 
     if (!venue && !user && !price)
         return next()

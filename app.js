@@ -8,7 +8,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const compression = require('compression');
-
+dotenv.config({ path: "./config.env" })
 
 
 // const catchAsync = require('utils/catchAsync');
@@ -72,7 +72,8 @@ app.use('/api/v1', bookingRouter)
 
 
 
-const port = process.env.PORT || 6000;
+const port = process.env.PORT || 3001;
+// console.log(process.env.PORT)
 
 app.listen(port, function() {
     console.log(`App running on ${port}....`);
