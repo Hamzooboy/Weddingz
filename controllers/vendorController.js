@@ -147,6 +147,22 @@ exports.updateStatus = async function(req, res, next) {
         })
     }
 }
+exports.makeFeatured = async function(req, res, next) {
+    try {
+        const featuredVendor = await Vendor.findByIdAndUpdate({ _id: req.params.id }, { isFeatured: true })
+        res.status(200).json({
+            status: 'success',
+            data: {
+                featuredVendor
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
 
 exports.deleteVendor = factory.deleteOne(Vendor)
 
