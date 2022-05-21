@@ -230,6 +230,25 @@ exports.getFeaturedVenues = async function(req, res, next) {
         })
     }
 }
+
+exports.makeFeatured = async function(req, res, next) {
+    try {
+        const featuredVenue = await Venue.findByIdAndUpdate({ _id: req.params.id }, { isFeatured: true })
+        res.status(200).json({
+            status: 'success',
+            data: {
+                featuredVenue
+            }
+        })
+    } catch (err) {
+        res.status(400).json({
+            status: 'error',
+            message: err.message
+        })
+
+    }
+}
+
 exports.getBanquetHalls = async function(req, res, next) {
     try {
         const venue = await Venue.aggregate([{
