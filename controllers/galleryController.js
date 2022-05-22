@@ -39,3 +39,20 @@ exports.uploadImage = async function(req, res, next) {
         })
     }
 }
+exports.getGallery = async function(req, res, next) {
+    try {
+        const features = new APIFeatures(Gallery.find(), req.query).sort().paginate()
+        const gallery = await features.query;
+        res.status(200).json({
+            status: 'success',
+            data: {
+                gallery
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
