@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 
-
+router.post('/uploadImage', upload.array('photos'), authController.protect, authController.restrictTo('admin', 'vendor', 'customer'), galleryController.uploadImage)
 
 
 
