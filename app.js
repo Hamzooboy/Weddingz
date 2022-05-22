@@ -20,6 +20,7 @@ const reviewRouter = require('./Routes/reviewRoutes');
 const bookingRouter = require('./Routes/bookingRoutes');
 const companyRouter = require('./Routes/companyRoutes');
 const viewRouter = require('./Routes/viewRoutes');
+const blogRouter = require('./Routes/blogRoutes')
 const bodyParser = require('body-parser');
 const { ratingsAverage, ratingsQuantity, price, category } = require('./Models/venueModel')
 
@@ -66,6 +67,7 @@ app.use('/api/v1', vendorRouter)
 app.use('/api/v1', reviewRouter)
 app.use('/api/v1', companyRouter)
 app.use('/api/v1', bookingRouter)
+app.use('/api/v1', blogRouter)
 
 
 

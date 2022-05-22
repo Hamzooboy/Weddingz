@@ -12,7 +12,7 @@ exports.getAllReviews = catchAsync(async function(req, res, next) {
     if (req.params.vendorId) {
         filter = { vendor: req.params.vendorId }
     }
-
+    // console.log(Review)
     const reviews = await Review.find(filter);
     res.status(200).json({
         status: 'success',

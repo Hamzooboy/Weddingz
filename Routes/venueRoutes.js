@@ -14,7 +14,7 @@ const router = express.Router();
 // router.use('/venues/:venueId/reviews', reviewRouter);
 
 
-router.post('/venues', upload.array('photos', 'imgCover'), authController.protect, authController.restrictTo('admin', 'vendor'), venueController.createVenue)
+router.post('/venues', upload.array('photos'), authController.protect, authController.restrictTo('admin', 'vendor'), venueController.createVenue)
     // router.post('/venues', venueController.createVenue)
 router.get('/getVenue/:id', venueController.getVenue)
 router.get('/venues', venueController.getAllVenues)
