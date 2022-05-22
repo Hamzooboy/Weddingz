@@ -9,48 +9,56 @@ const fs = require('fs')
 
 
 exports.createBlog = async function(req, res, next) {
-    try {
-        const { userID, title, description, createdAt, slug, isFeatured } = req.body;
-        const uploader = async(path) => await cloudinary.uploads(path, 'Images');
-        const urls = [];
-        const files = req.files;
+        try {
+            const { userID, title, description, createdAt, slug, isFeatured } = req.body;
+            const uploader = async(path) => await cloudinary.uploads(path, 'Images');
+            const urls = [];
+            const files = req.files;
 
-        for (const file of files) {
-            const { path } = file;
-            const newPath = await uploader(path)
-            urls.push(newPath.url);
-            fs.unlinkSync(path)
-        }
-
-
-        const newBlog = await Blog.create({
-            userID: req.user.id,
-            title,
-            description,
-            createdAt,
-            slug,
-            isFeatured,
-            photos: urls
-
-
-
-        })
-        console.log(userID)
-        res.status(200).json({
-            status: 'success',
-            data: {
-                blog: newBlog
+            for (const file of files) {
+                const { path } = file;
+                const newPath = await uploader(path)
+                urls.push(newPath.url);
+                fs.unlinkSync(path)
             }
-        })
 
-    } catch (err) {
-        res.status(500).json({
-            status: 'error',
-            message: err.message
-        })
+
+            const newBlog = await Blog.create({
+                userID: req.user.id,
+                title,
+                description,
+                createdAt,
+                slug,
+                isFeatured,
+                photos: urls
+
+
+
+            })
+            console.log(userID)
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    blog: newBlog
+                }
+            })
+
+        } catch (err) {
+            res.status(500).json({
+                status: 'error',
+                message: err.message
+            })
+        }
+        next();
     }
-    next();
-}
+    // exports.createGallery = async function(req, res, next) {
+    //     try {
+    //         const { userID } = req.body
+    //     } catch (err) {
+
+//     }
+// }
+
 exports.getBlogs = async function(req, res, next) {
     try {
         // console.log('asdsadsa');
@@ -136,6 +144,8 @@ exports.getFeaturedBlogs = async function(req, res, next) {
     }
     next();
 }
+
+
 
 exports.deleteBlog = factory.deleteOne(Blog);
 exports.updateBlog = factory.updateOne(Blog);

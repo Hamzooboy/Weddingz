@@ -171,6 +171,24 @@ const venueSchema = new mongoose.Schema({
     },
     perHeadEvening: {
         type: String
+    },
+    servicesOffered: {
+        type: String
+    },
+    industryExperience: {
+        type: Number
+    },
+    paymentTerms: {
+        type: String
+    },
+    facilitiesOffered: {
+        type: String
+    },
+    travelCost: {
+        type: String
+    },
+    famousEvents: {
+        type: String
     }
 
 

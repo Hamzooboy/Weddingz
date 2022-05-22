@@ -107,6 +107,12 @@ const vendorSchema = new mongoose.Schema({
     isApproved: {
         type: Boolean,
         default: false
+    },
+    area: {
+        type: String
+    },
+    address: {
+        type: String
     }
 
 
