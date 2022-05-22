@@ -43,7 +43,7 @@ exports.createVenue = async function(req, res, next) {
 
 
         const newVenue = await Venue.create({
-            userID,
+            userID: req.user.id,
             title,
             ratingsAverage,
             ratingsQuantity,
