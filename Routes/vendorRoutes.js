@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post('/vendors', upload.array('photos'), authController.protect, authController.restrictTo('admin', 'vendor'), vendorController.createVendor);
 router.get('/vendors', vendorController.getVendor);
-router.get('/vendors/:id', vendorController.getSingleVendor)
+
 
 router.get('/vendors/bridalWear', vendorController.getbridalWear)
 router.get('/vendors/groomWear', vendorController.getgroomWear);
@@ -20,7 +20,7 @@ router.get('/vendors/catering', vendorController.getCatering)
 router.get('/vendors/honeymoon', vendorController.getHoneymoon)
 router.get('/vendors/featuredVendors', vendorController.getFeaturedVendors)
 router.get('/getMyVendors', authController.protect, vendorController.getMyVendors)
-
+router.get('/vendors/:id', vendorController.getSingleVendor)
 router.patch('/vendors/:id', upload.array('photos'), authController.protect, authController.restrictTo('admin', 'vendor'), vendorController.updateVendor);
 router.patch('/approve/:id', authController.protect, authController.restrictTo('admin'), vendorController.updateStatus)
 router.patch('/vendors/makeFeatured/:id', authController.protect, authController.restrictTo('admin'), vendorController.makeFeatured)

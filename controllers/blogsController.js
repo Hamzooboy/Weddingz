@@ -10,7 +10,7 @@ const fs = require('fs')
 
 exports.createBlog = async function(req, res, next) {
         try {
-            const { userID, title, description, createdAt, slug, isFeatured } = req.body;
+            const { userID, title, description, createdAt, slug, isFeatured, shortDescription } = req.body;
             const uploader = async(path) => await cloudinary.uploads(path, 'Images');
             const urls = [];
             const files = req.files;
@@ -27,6 +27,7 @@ exports.createBlog = async function(req, res, next) {
                 userID: req.user.id,
                 title,
                 description,
+                shortDescription,
                 createdAt,
                 slug,
                 isFeatured,

@@ -7,16 +7,17 @@ const blogsSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Users'
     },
-    title: {
+    title: [{
         type: String,
         required: [true, 'A blog must have a title']
-    },
+    }],
     photos: [{
         type: String
     }],
-    description: {
+    description: [{
         type: String
-    },
+    }],
+    shortDescription: [{ type: String }],
     createdAt: {
         type: Date,
         default: Date.now(),
