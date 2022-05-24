@@ -23,8 +23,9 @@ const viewRouter = require('./Routes/viewRoutes');
 const blogRouter = require('./Routes/blogRoutes')
 const galleryRouter = require('./Routes/galleryRoutes')
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const { ratingsAverage, ratingsQuantity, price, category } = require('./Models/venueModel')
-
+app.use(morgan("dev"));
 app.use(helmet());
 app.use(express.json());
 app.use(mongoSanitize());

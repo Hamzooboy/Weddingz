@@ -3,10 +3,10 @@ const slugify = require('slugify');
 const Review = require('../Models/reviewModel')
 
 const vendorSchema = new mongoose.Schema({
-    userID: [{
+    userID: {
         type: mongoose.Schema.ObjectId,
         ref: 'Users'
-    }],
+    },
     title: {
         type: String,
         required: [true, 'A vendor must have its title'],

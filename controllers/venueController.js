@@ -280,9 +280,9 @@ exports.getBanquetHalls = async function(req, res, next) {
 exports.getfarmHouses = async function(req, res, next) {
     try {
         const venue = await Venue.aggregate([{
-            $match: { category: 'Farmhouses' }
-        }])
-
+                $match: { category: 'Farmhouses' }
+            }])
+            // console.log(venue)
         res.status(200).json({
             status: 'success',
             data: {
