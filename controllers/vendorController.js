@@ -190,7 +190,7 @@ exports.getbridalWear = async function(req, res, next) {
         const vendor = await Vendor.aggregate([{
             $match: { category: 'Bridal Wear' }
         }])
-        res.status(200).json({
+        return res.status(200).json({
             status: 'success',
             results: vendor.length,
             data: {
@@ -198,12 +198,12 @@ exports.getbridalWear = async function(req, res, next) {
             }
         })
     } catch (err) {
-        res.status(500).json({
+        return res.status(500).json({
             status: 'error',
             message: err.message
         })
     }
-    next();
+    // next();
 }
 
 exports.getFeaturedVendors = async function(req, res, next) {
@@ -263,16 +263,17 @@ exports.getPhotographers = async function(req, res, next) {
             message: err.message
         })
     }
-    next();
+    // next();
 }
 
 exports.getParlors = async function(req, res, next) {
     try {
-        // const vendor = await Vendor.aggregate([{
-        //     $match: { category: 'Parlors' }
-        // }])
-        // console.log(vendor)
-        const vendor = await Vendor.find({ category: 'Parlors' })
+        const vendor = await Vendor.aggregate([{
+            $match: { category: 'Parlors' }
+        }])
+        console.log(vendor)
+
+
         return res.status(200).json({
             status: 'success',
             results: vendor.length,
