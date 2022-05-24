@@ -24,7 +24,7 @@ exports.createVenue = async function(req, res, next) {
         }
         // console.log('sadsad')
         // console.log(req.body);
-        const { title, userID, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking, isFeatured, company, area, address, facebookUrl, instagramUrl, menu, startingYear, advanceBooking, spacesAvailable, perHeadMorning, perHeadEvening, servicesOffered, industryExperience, paymentTerms, travelCost, facilitiesOffered, famousEvents } = req.body;
+        const { title, userID, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking, isFeatured, company, area, address, facebookUrl, instagramUrl, menu, startingYear, advanceBooking, spacesAvailable, perHeadMorning, perHeadEvening, servicesOffered, industryExperience, paymentTerms, travelCost, facilitiesOffered, famousEvents, active } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
         // console.log(req.body.category)
 
@@ -82,6 +82,7 @@ exports.createVenue = async function(req, res, next) {
             travelCost,
             facilitiesOffered,
             famousEvents,
+            active,
 
             photos: urls
         })
@@ -315,4 +316,42 @@ exports.getMarquees = async function(req, res, next) {
             message: err.message
         })
     }
+}
+
+exports.getMyVenues = async function(req, res, next) {
+    try {
+        const userID = req.user.id;
+        const venues = await Venue.find({ userID })
+        res.status(200).json({
+            status: 'success',
+            results: venues.length,
+            data: {
+                venues
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+    next();
+}
+exports.deleteMyVenue = async function(req, res, next) {
+    try {
+        // const _id = req.params.id;
+        const venue = await Venue.findByIdAndUpdate(req.user.id, { active: false })
+        res.status(200).json({
+            status: 'success',
+            data: null
+
+
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+    next();
 }

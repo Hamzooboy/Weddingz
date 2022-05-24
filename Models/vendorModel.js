@@ -143,7 +143,7 @@ vendorSchema.pre('save', function(next) {
 vendorSchema.pre(/^find/, function(next) {
     this.populate({
         path: 'userID',
-        select: '-__v'
+        select: 'name'
     })
     next();
 })

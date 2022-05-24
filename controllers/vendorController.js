@@ -202,7 +202,7 @@ exports.getbridalWear = async function(req, res, next) {
             message: err.message
         })
     }
-    return next();
+    next();
 }
 
 exports.getFeaturedVendors = async function(req, res, next) {
@@ -242,7 +242,7 @@ exports.getgroomWear = async function(req, res, next) {
             message: err.message
         })
     }
-    return next();
+    next();
 }
 exports.getPhotographers = async function(req, res, next) {
     try {
@@ -262,7 +262,7 @@ exports.getPhotographers = async function(req, res, next) {
             message: err.message
         })
     }
-    return next();
+    next();
 }
 
 exports.getParlors = async function(req, res, next) {
@@ -270,6 +270,7 @@ exports.getParlors = async function(req, res, next) {
         const vendor = await Vendor.aggregate([{
             $match: { category: 'Parlors' }
         }])
+        console.log(vendor)
         res.status(200).json({
             status: 'success',
             results: vendor.length,
@@ -283,7 +284,7 @@ exports.getParlors = async function(req, res, next) {
             message: err.message
         })
     }
-    return next();
+    next();
 
 }
 exports.getDecors = async function(req, res, next) {
@@ -304,7 +305,7 @@ exports.getDecors = async function(req, res, next) {
             message: err.message
         })
     }
-    return next();
+    next();
 
 }
 exports.getCatering = async function(req, res, next) {
@@ -325,7 +326,7 @@ exports.getCatering = async function(req, res, next) {
             message: err.message
         })
     }
-    return next();
+    next();
 
 }
 exports.getHoneymoon = async function(req, res, next) {
@@ -346,5 +347,5 @@ exports.getHoneymoon = async function(req, res, next) {
             message: err.message
         })
     }
-    return next();
+    next();
 }

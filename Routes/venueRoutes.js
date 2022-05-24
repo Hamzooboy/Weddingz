@@ -22,11 +22,13 @@ router.get('/venues/featuredVenues', venueController.getFeaturedVenues)
 router.get('/venues/banquetHalls', venueController.getBanquetHalls)
 router.get('/venues/farmHouses', venueController.getfarmHouses);
 router.get('/venues/marquees', venueController.getMarquees);
+router.get('/myVenues', authController.protect, venueController.getMyVenues)
 router.patch('/venues/:id', upload.array('photos'), authController.protect, authController.restrictTo('admin', 'vendor'), venueController.updateVenue);
 router.patch('/venues/makeFeatured/:id', authController.protect, authController.restrictTo('admin'), venueController.makeFeatured)
 router.delete('/venues/:id', authController.protect, authController.restrictTo('admin', 'vendor'), venueController.deleteVenue)
+router.delete('/deleteMyVenue/:id', authController.protect, authController.restrictTo('admin', 'vendor'), venueController.deleteMyVenue)
 
-router.post('/venues/:venueId/reviews', authController.protect, authController.restrictTo('customer'), reviewController.createReview)
+router.post('/venues/:venueId/reviews', authController.protect, authController.restrictTo('customer', 'admin'), reviewController.createReview)
 router.get('/venues/:venueId/reviews', reviewController.getAllReviews)
 
 

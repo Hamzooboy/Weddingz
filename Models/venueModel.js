@@ -189,6 +189,11 @@ const venueSchema = new mongoose.Schema({
     },
     famousEvents: {
         type: String
+    },
+    active: {
+        type: Boolean,
+        default: true,
+        select: false
     }
 
 
