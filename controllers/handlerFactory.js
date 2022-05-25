@@ -50,7 +50,7 @@ exports.updateOne = Model => async function(req, res, next) {
 exports.updateAd = Model => async function(req, res, next) {
     try {
         // console.log(req.body)
-        const doc = await Model.findByIdAndUpdate({ _id: req.params.id }, req.body, photos, {
+        const doc = await Model.findByIdAndUpdate({ _id: req.params.id }, req.body, {
             new: true,
             runValidators: true
         })
