@@ -28,7 +28,7 @@ router.patch('/venues/makeFeatured/:id', authController.protect, authController.
 router.delete('/venues/:id', authController.protect, authController.restrictTo('admin', 'vendor'), venueController.deleteVenue)
 router.delete('/deleteMyVenue/:id', authController.protect, authController.restrictTo('admin', 'vendor'), venueController.deleteMyVenue)
 
-router.post('/venues/:venueId/reviews', authController.protect, authController.restrictTo('customer', 'admin'), reviewController.createReview)
+router.post('/venues/:venueId/reviews', authController.protect, authController.restrictTo('customer', 'admin', 'vendor'), reviewController.createReview)
 router.get('/venues/:venueId/reviews', reviewController.getAllReviews)
 
 
