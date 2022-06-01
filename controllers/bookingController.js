@@ -44,7 +44,7 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
 })
 
 exports.createBookingCheckout = catchAsync(async function(req, res, next) {
-    // console.log(req.user.id)
+    console.log(req.user.id)
     const { venue, price } = req.body
     console.log('sadsadsadsa')
     console.log(req.user.id, venue, price);
