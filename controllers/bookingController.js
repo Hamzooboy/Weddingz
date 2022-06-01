@@ -22,7 +22,7 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
         customer_email: req.user.email,
         client_reference_id: req.params.venueId,
         line_items: [{
-            name: `${venue.name} Venue`,
+            name: `${venue.title} Venue`,
             description: venue.description,
             // images:[`Can only be implemented once the website is live`]
             amount: venue.price * 100,
@@ -44,7 +44,7 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
 })
 
 exports.createBookingCheckout = catchAsync(async function(req, res, next) {
-    const { venue, user, price } = req.query
+    const { venue, user, price } = req.body
     console.log(venue, user, price);
 
     if (!venue && !user && !price)

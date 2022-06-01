@@ -27,6 +27,11 @@ const bookingSchema = new mongoose.Schema({
     paid: {
         type: Boolean,
         default: true
+    },
+    status: {
+        type: String,
+        required: true,
+        default: 'Booked'
     }
 })
 bookingSchema.pre(/^find/, function(next) {

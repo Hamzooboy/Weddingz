@@ -6,7 +6,7 @@ const bookingController = require('../controllers/bookingController')
 const router = express.Router();
 
 
-router.get('/', bookingController.createBookingCheckout, authController.protect, viewControllers.getOverview)
+router.get('/payment', bookingController.createBookingCheckout, authController.protect, viewControllers.getOverview)
 
 
 

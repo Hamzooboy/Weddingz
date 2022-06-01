@@ -7,13 +7,13 @@ const upload = multer({ dest: 'uploads/' })
 const router = express.Router();
 
 
-router.post('/createBlog', upload.array('photos'), authController.protect, authController.restrictTo('admin', 'customer'), blogController.createBlog)
+router.post('/createBlog', upload.array('photos'), authController.protect, authController.restrictTo('admin', 'customer', 'vendor'), blogController.createBlog)
 router.get('/getBlogs', blogController.getBlogs)
 router.get('/getSingleBlog/:id', blogController.getSingleBlog)
 router.get('/getFeaturedBlogs', blogController.getFeaturedBlogs)
 router.patch('/updateBlog/:id', authController.protect, authController.restrictTo('admin', 'customer'), blogController.updateBlog)
 router.patch('/blogs/makeFeatured/:id', authController.protect, authController.restrictTo('admin'), blogController.makeFeatured)
-router.delete('/deleteBlog/:id', authController.protect, authController.restrictTo('admin', 'customer'), blogController.deleteBlog)
+router.delete('/deleteBlog/:id', authController.protect, authController.restrictTo('admin', 'customer', 'vendor'), blogController.deleteBlog)
 
 
 
