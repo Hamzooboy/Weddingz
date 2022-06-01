@@ -45,11 +45,13 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
 
 exports.createBookingCheckout = catchAsync(async function(req, res, next) {
     const { venue, user, price } = req.body
+    console.log('sadsadsadsa')
     console.log(venue, user, price);
 
     if (!venue && !user && !price)
         return next()
     const newBooking = await Booking.create({ venue, user, price })
+    console.log(newBooking)
     newBooking.save();
     res.redirect(req.originalUrl.split('?')[0])
 
