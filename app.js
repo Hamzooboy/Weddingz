@@ -54,12 +54,12 @@ app.use((req, res, next) => {
 
 
 
-app.get('/', function(req, res) {
-    res.status(200).json({
-        Status: 'OK',
-        message: 'Hello from the server side'
-    });
-})
+// app.get('/', function(req, res) {
+//     res.status(200).json({
+//         Status: 'OK',
+//         message: 'Hello from the server side'
+//     });
+// })
 
 
 app.use('/', viewRouter)

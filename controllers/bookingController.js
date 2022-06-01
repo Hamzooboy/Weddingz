@@ -39,11 +39,12 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
         session
 
     })
-
+    next();
 
 })
 
 exports.createBookingCheckout = catchAsync(async function(req, res, next) {
+
     const { venue, user, price } = req.body
     console.log('sadsadsadsa')
     console.log(venue, user, price);

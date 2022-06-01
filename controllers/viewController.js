@@ -15,4 +15,5 @@ exports.getOverview = catchAsync(async function(req, res, next) {
             venues
         }
     })
+    next();
 })
