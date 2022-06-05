@@ -1,10 +1,13 @@
 const stripe = require('stripe')('sk_test_51KebqKLo3oIyoa1DRNIY3zKYVKHbcjPgWVkf4w5HCMDlFfduu2KYmmd3Sd9BytVcSk1j4nWKe7zRQm4fBciqSTm600cxBaLNdI')
 const Venue = require('../Models/venueModel');
+const url = require('url');
+
 const Vendor = require('../Models/vendorModel')
 const Booking = require('../Models/bookingsModel')
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const { catchAsync } = require('catch-async-express');
+const { compareSync } = require('bcryptjs');
 
 
 
@@ -44,16 +47,28 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
 })
 
 exports.createBookingCheckout = catchAsync(async function(req, res, next) {
-    console.log(req.user.id)
-    const { venue, price } = req.body
-    console.log('sadsadsadsa')
+    // const url_parts = url.parse(req.url, true);
+    // const query = url_parts.query;
+    // console.log(query)
+    // console.log(url_parts)
+
+    // console.log(req.user.id)
+    // console.log(req.query.venue)
+    // console.log(req.url)
+    // console.log(req.protocol)
+
+    const { venue, price } = req.query
+
+
+    // const price = venue.price
+    // console.log('sadsadsadsa')
     console.log(req.user.id, venue, price);
 
-    // if (!venue && !price)
-    //     return next()
+    if (!venue && !price)
+        return next()
     const newBooking = await Booking.create({ user: req.user.id, venue, price })
     console.log(newBooking)
     newBooking.save();
     res.redirect(req.originalUrl.split('?')[0])
-
+        // return next();
 })
