@@ -55,20 +55,32 @@ exports.createBookingCheckout = catchAsync(async function(req, res, next) {
     // console.log(req.user.id)
     // console.log(req.query.venue)
     // console.log(req.url)
-    // console.log(req.protocol)
+    try { // console.log(req.protocol)
 
-    const { user, venue, price } = req.query
+        const { user, venue, price } = req.query
 
 
-    // const price = venue.price
-    // console.log('sadsadsadsa')
-    console.log(user, venue, price);
+        // const price = venue.price
+        // console.log('sadsadsadsa')
+        console.log(user, venue, price);
 
-    if (!venue && !price)
-        return next()
-    const newBooking = await Booking.create({ user, venue, price })
-    console.log(newBooking)
-    newBooking.save();
-    res.redirect(req.originalUrl.split('?')[0])
-        // return next();
+        if (!venue && !price)
+            return next()
+        const newBooking = await Booking.create({ user, venue, price })
+        console.log(newBooking)
+        newBooking.save();
+        // res.redirect(req.originalUrl.split('?')[0])
+        res.status(200).json({
+                status: 'success',
+                data: {
+                    newBooking
+                }
+            })
+            // return next();
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
 })
