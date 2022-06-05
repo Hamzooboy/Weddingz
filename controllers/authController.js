@@ -216,6 +216,30 @@
 
 
  })
+ exports.isLoggedIn = catchAsync(async function(req, res, next) {
+     console.log(jwt)
+     if (req.cookies.jwt) {
+         //Verify Token
+         const decoded = await promisify(jwt.verify)(
+             req.cookies.jwt,
+             `${process.env.JWT_SECRET}`
+         )
+
+         //Checking if the user still exists
+         const currentUser = await User.findById(decoded.id);
+         if (!currentUser) {
+             return next();
+         }
+
+         //Checking if the user changed the password after the token was issued
+         if (currentUser.changedPasswordAfter(decoded.iat)) {
+             return next();
+         }
+         res.locals.user = currentUser;
+         return next();
+     }
+     next();
+ })
 
  exports.restrictTo = function(...roles) {
      return function(req, res, next) {

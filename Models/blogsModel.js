@@ -38,9 +38,9 @@ const blogsSchema = new mongoose.Schema({
 blogsSchema.index({ slug: 1 })
 
 blogsSchema.pre('save', function(next) {
-    this.slug = slugify(this.title, {
+    this.slug = slugify[(this.title, {
         lower: true
-    })
+    })]
     next();
 })
 

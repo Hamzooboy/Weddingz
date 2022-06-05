@@ -49,8 +49,8 @@ exports.createBookingCheckout = catchAsync(async function(req, res, next) {
     console.log('sadsadsadsa')
     console.log(req.user.id, venue, price);
 
-    if (!venue && !price)
-        return next()
+    // if (!venue && !price)
+    //     return next()
     const newBooking = await Booking.create({ user: req.user.id, venue, price })
     console.log(newBooking)
     newBooking.save();
