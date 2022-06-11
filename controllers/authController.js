@@ -186,7 +186,7 @@
      //  else if (req.cookies.jwt) {
      //      token = req.cookies.jwt
      //  }
-     console.log(token)
+     //  console.log(token)
      if (!token) {
          return next(new AppError('You are not logged in. Please log in to get access!', 401));
 
@@ -218,7 +218,7 @@
 
  })
  exports.isLoggedIn = catchAsync(async function(req, res, next) {
-     console.log(jwt)
+     //  console.log(jwt)
      if (req.cookies.jwt) {
          //Verify Token
          const decoded = await promisify(jwt.verify)(

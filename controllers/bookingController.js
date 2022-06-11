@@ -8,6 +8,7 @@ const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 const { catchAsync } = require('catch-async-express');
 const { compareSync } = require('bcryptjs');
+// const factory = require('./handlerFactory')
 
 
 
@@ -62,12 +63,12 @@ exports.createBookingCheckout = catchAsync(async function(req, res, next) {
 
         // const price = venue.price
         // console.log('sadsadsadsa')
-        console.log(user, venue, price);
+        // console.log(user, venue, price);
 
         if (!venue && !price)
             return next()
         const newBooking = await Booking.create({ user, venue, price })
-        console.log(newBooking)
+            // console.log(newBooking)
         newBooking.save();
         // res.redirect(req.originalUrl.split('?')[0])
         res.status(200).json({
@@ -84,3 +85,61 @@ exports.createBookingCheckout = catchAsync(async function(req, res, next) {
         })
     }
 })
+
+exports.getMyBookings = async function(req, res, next) {
+    try {
+        const bookings = await Booking.find({ user: req.user.id })
+
+        const venueIDs = bookings.map(el => el.venue);
+        const venues = await Venue.find({ _id: { $in: venueIDs } })
+        res.status(200).json({
+            status: 'success',
+            results: venues.length,
+            data: {
+                venues
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
+
+exports.getAllBookings = async function(req, res, next) {
+    try {
+        const bookings = await Booking.find();
+        res.status(200).json({
+            status: 'success',
+            results: bookings.length,
+            data: {
+                bookings
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
+exports.getBooking = async function(req, res, next) {
+    try {
+        const booking = await Booking.findById(req.params.id)
+        res.status(200).json({
+            status: 'success',
+            data: {
+                booking
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
+
+exports.deleteBooking = factory.deleteOne(Booking)
+exports.updateBooking = factory.updateOne(Booking)
