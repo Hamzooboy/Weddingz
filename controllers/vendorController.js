@@ -65,7 +65,7 @@ exports.createVendor = async function(req, res, next) {
 exports.getVendor = async function(req, res, next) {
     try {
         const features = new APIFeatures(Vendor.find(), req.query).search().filter().sort().limitFields().paginate();
-        console.log(features.query)
+        // console.log(features.query)
         const allVendors = await features.query;
         // let filteredVendorsCount = allVendors.length;
 
@@ -269,9 +269,9 @@ exports.getPhotographers = async function(req, res, next) {
 exports.getParlors = async function(req, res, next) {
     try {
         const vendor = await Vendor.aggregate([{
-            $match: { category: 'Parlors' }
-        }])
-        console.log(vendor)
+                $match: { category: 'Parlors' }
+            }])
+            // console.log(vendor)
 
 
         return res.status(200).json({

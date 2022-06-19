@@ -2,7 +2,8 @@ const express = require('express');
 const venueController = require('../controllers/venueController');
 const authController = require('../controllers/authController');
 const reviewController = require('../controllers/reviewController');
-// const reviewRouter = require('../Routes/reviewRoutes');
+const bookingController = require('../controllers/bookingController')
+    // const reviewRouter = require('../Routes/reviewRoutes');
 
 
 // const upload = require('../utils/multer');
@@ -30,6 +31,7 @@ router.delete('/deleteMyVenue/:id', authController.protect, authController.restr
 
 router.post('/venues/:venueId/reviews', authController.protect, authController.restrictTo('customer', 'admin', 'vendor'), reviewController.createReview)
 router.get('/venues/:venueId/reviews', reviewController.getAllReviews)
+router.get('/venues/:venueId/bookings', bookingController.getAllBookings)
 
 
 

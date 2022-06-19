@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Venue = require('./venueModel')
 
 const bookingSchema = new mongoose.Schema({
     venue: {
@@ -33,6 +34,9 @@ const bookingSchema = new mongoose.Schema({
         required: true,
         default: 'Booked'
     }
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
 bookingSchema.pre(/^find/, function(next) {
     this.populate('user').populate({

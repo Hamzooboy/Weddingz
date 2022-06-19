@@ -109,7 +109,11 @@ exports.getMyBookings = async function(req, res, next) {
 
 exports.getAllBookings = async function(req, res, next) {
     try {
-        const bookings = await Booking.find();
+        let filter = {};
+        if (req.params.venueId) {
+            filter = { venue: req.params.venueId }
+        }
+        const bookings = await Booking.find(filter);
         res.status(200).json({
             status: 'success',
             results: bookings.length,

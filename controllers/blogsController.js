@@ -24,19 +24,19 @@ exports.createBlog = async function(req, res, next) {
 
 
             const newBlog = await Blog.create({
-                userID: req.user.id,
-                title,
-                description,
-                shortDescription,
-                createdAt,
-                slug,
-                isFeatured,
-                photos: urls
+                    userID: req.user.id,
+                    title,
+                    description,
+                    shortDescription,
+                    createdAt,
+                    slug,
+                    isFeatured,
+                    photos: urls
 
 
 
-            })
-            console.log(userID)
+                })
+                // console.log(userID)
             res.status(200).json({
                 status: 'success',
                 data: {

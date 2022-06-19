@@ -218,6 +218,12 @@ venueSchema.virtual('reviews', {
     // model: Review
 })
 
+venueSchema.virtual('bookings', {
+    ref: 'Booking',
+    foreignField: 'venue',
+    localField: '_id'
+})
+
 venueSchema.pre('save', function(next) {
     this.slug = slugify(this.title, {
         lower: true
