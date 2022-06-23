@@ -36,9 +36,7 @@ app.use(xss({
 }));
 app.use(hpp());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-    origin: '*'
-}))
+app.use(cors())
 
 
 app.use(compression());
