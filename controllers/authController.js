@@ -57,7 +57,7 @@
      next();
  }
 
- exports.login = async function(req, res, next) {
+ exports.login = catchAsync(async function(req, res, next) {
      const { email, password } = req.body;
      //Check if email and password exist
      if (!email || !password) {
@@ -88,8 +88,7 @@
          status: 'success',
          token
      })
- }
-
+ })
  exports.forgotPassword = async function(req, res, next) {
 
      //Check if user exists
