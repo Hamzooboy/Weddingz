@@ -61,13 +61,13 @@
      const { email, password } = req.body;
      //Check if email and password exist
      if (!email || !password) {
-         return next(new AppError('Please provide a valid email address and password.', 500));
+         return res.status(403).json('Email or password is incorrect')
      }
      //Check if user exits and password is correct
      const user = await User.findOne({ email }).select('+password');
 
      if (!user || !await user.correctPassword(password, user.password)) {
-         return next(new AppError('User Email or Password is incorrect', 500))
+         return res.status(403).json('Email or password is incorrect')
      }
 
 
