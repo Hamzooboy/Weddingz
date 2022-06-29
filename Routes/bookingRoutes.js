@@ -2,7 +2,11 @@ const express = require("express");
 const bookingController = require("../controllers/bookingController");
 const authController = require("../controllers/authController");
 const router = express.Router();
-
+router.get(
+  "/booked-slots",
+  authController.protect,
+  bookingController.getBookingDetail
+);
 router.get(
   "/getCheckoutSession/:venueId",
   authController.protect,
@@ -37,10 +41,11 @@ router.patch(
   authController.restrictTo("admin", "vendor"),
   bookingController.updateBooking
 );
-router.get(
-  "/booked-slots",
+
+router.post(
+  "/create-booking",
   authController.protect,
-  bookingController.getBookingDetail
+  bookingController.createBookingCheckout
 );
 
 module.exports = router;

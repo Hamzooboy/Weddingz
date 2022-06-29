@@ -46,8 +46,9 @@ exports.getCheckoutSession = catchAsync(async function (req, res, next) {
 });
 
 exports.getBookingDetail = catchAsync(async (req, res, next) => {
-  const { date, venue, slot } = req.query;
-  if (!date || !venue || !slot) {
+  console.log("here");
+  const { date, venue } = req.query;
+  if (!date || !venue) {
     return res.status(401).json({
       status: "Please provide complete data",
     });
@@ -55,7 +56,7 @@ exports.getBookingDetail = catchAsync(async (req, res, next) => {
 
   //   Find the booked slots of a venue
 
-  const bookedSlots = await Booking.find({ date, venue });
+  const bookedSlots = await Booking.find({ createdAt: date, venue });
 
   return res.status(200).json({
     status: "Success",
@@ -75,24 +76,30 @@ exports.createBookingCheckout = catchAsync(async function (req, res, next) {
   try {
     // console.log(req.protocol)
 
-    const { user, venue, price, slot } = req.query;
+    const { user, venue, price, slot, date } = req.body;
 
     // const price = venue.price
     // console.log('sadsadsadsa')
     // console.log(user, venue, price);
 
     // Checking if booking already exists with the selected slot:
-    const bookingExist = await Booking.find({ venue, slot });
-    if (bookingExist)
+    const bookingExist = await Booking.find({ venue, slot, createdAt: date });
+    if (!bookingExist)
       return res.status(403).json({
         status: "Booking already exists",
         data: "",
       });
-
     if (!venue && !price) return next();
-    const newBooking = await Booking.create({ user, venue, price, slot });
+    console.log(date)
+    const newBooking = await Booking.create({
+      user,
+      venue,
+      price,
+      slot,
+      createdAt: date,
+    });
     // console.log(newBooking)
-    newBooking.save();
+    await newBooking.save();
     // res.redirect(req.originalUrl.split('?')[0])
     res.status(200).json({
       status: "success",

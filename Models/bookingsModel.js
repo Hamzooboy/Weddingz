@@ -23,8 +23,7 @@ const bookingSchema = new mongoose.Schema(
       required: [true, 'A Booking must have a price']
     },
     createdAt: {
-      type: Date,
-      default: Date.now(),
+      type: String,
     },
     status: {
       type: String,
