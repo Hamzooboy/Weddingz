@@ -14,8 +14,11 @@ const { compareSync } = require("bcryptjs");
 
 exports.getCheckoutSession = catchAsync(async function (req, res, next) {
   //Getting the currently Booked Vendor or Venue
+  const {slot,date}=req.query
   const venue = await Venue.findById(req.params.venueId);
   // const vendor = await Vendor.findById(req.params.vendorId);
+
+  const bookingDetail=await Booking.findOne({slot:slot,createdAt:date})
 
   //Creating Checkout Session
   const session = await stripe.checkout.sessions.create({
@@ -31,7 +34,7 @@ exports.getCheckoutSession = catchAsync(async function (req, res, next) {
         name: `${venue.title} Venue`,
         description: venue.description,
         // images:[`Can only be implemented once the website is live`]
-        amount: venue.price * 100,
+        amount: bookingDetail.price,
         currency: "pkr",
         quantity: 1,
       },
