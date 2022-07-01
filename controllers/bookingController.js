@@ -30,7 +30,7 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
             name: `${venue.title} Venue`,
             description: venue.description,
             // images:[`Can only be implemented once the website is live`]
-            amount: bookingDetail.price,
+            amount: bookingDetails.price,
             currency: "pkr",
             quantity: 1,
         }, ],
