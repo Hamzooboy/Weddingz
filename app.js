@@ -80,7 +80,7 @@ app.use('/api/v1', galleryRouter)
 
 
 
-const port = 3001;
+const port = process.env.PORT || 3001;
 // console.log(process.env.PORT)
 
 app.listen(port, function() {

@@ -207,24 +207,44 @@ exports.getbridalWear = async function(req, res, next) {
 }
 
 exports.getFeaturedVendors = async function(req, res, next) {
-    try {
-        const vendor = await Vendor.aggregate([{
-            $match: { isFeatured: true }
-        }])
-        res.status(200).json({
-            status: 'success',
-            results: vendor.length,
-            data: {
-                vendor
-            }
-        })
-    } catch (err) {
-        res.status(404).json({
-            status: 'error',
-            message: err.message
-        })
+        try {
+            const vendor = await Vendor.aggregate([{
+                $match: { isFeatured: true }
+            }])
+            res.status(200).json({
+                status: 'success',
+                results: vendor.length,
+                data: {
+                    vendor
+                }
+            })
+        } catch (err) {
+            res.status(404).json({
+                status: 'error',
+                message: err.message
+            })
+        }
     }
-}
+    // exports.getgroomWear = async function(req, res, next) {
+    //         try {
+    //             const features = new APIFeatures(Vendor.aggregate([{ $match: { category: 'Groom Wear' } }]), req.query).search().filter().sort().limitFields().paginate()
+    //             const groomWears = await features.query;
+    //             res.status(200).json({
+    //                 status: 'success',
+    //                 results: groomWears.length,
+    //                 data: {
+    //                     groomWears
+    //                 }
+    //             })
+    //         } catch (err) {
+    //             res.status(500).json({
+    //                 status: 'error',
+    //                 message: err.message
+    //             })
+
+//         }
+//         next();
+//     }
 exports.getgroomWear = async function(req, res, next) {
     try {
         const vendor = await Vendor.aggregate([{
