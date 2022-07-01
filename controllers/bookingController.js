@@ -14,10 +14,11 @@ const { compareSync } = require("bcryptjs");
 
 exports.getCheckoutSession = catchAsync(async function(req, res, next) {
     //Getting the currently Booked Vendor or Venue
+    const { slot, date } = req.query
     const venue = await Venue.findById(req.params.venueId);
     // const vendor = await Vendor.findById(req.params.vendorId);
-
-    //Creating Checkout Session
+    const bookDetail = await Booking.findOne({ slot: slot, createdAt: date })
+        //Creating Checkout Session
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         success_url: `${req.protocol}://${req.get("host")}/?venue=${
@@ -30,7 +31,7 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
             name: `${venue.title} Venue`,
             description: venue.description,
             // images:[`Can only be implemented once the website is live`]
-            amount: bookingDetails.price,
+            amount: bookDetail.price,
             currency: "pkr",
             quantity: 1,
         }, ],
