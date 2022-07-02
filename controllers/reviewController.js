@@ -25,6 +25,8 @@ exports.getAllReviews = catchAsync(async function(req, res, next) {
 
 exports.createReview = catchAsync(async function(req, res, next) {
     //Allow Nested Routes
+
+try{
     if (!req.body.venue) {
         req.body.venue = req.params.venueId;
     }
@@ -42,6 +44,12 @@ exports.createReview = catchAsync(async function(req, res, next) {
             review: newReview
         }
     })
+}catch(err){
+    res.status(500).json({
+        status:'error',
+        message:err.message
+    })
+}
 })
 
 
