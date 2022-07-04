@@ -114,7 +114,7 @@
      //  const resetURL = `http://localhost:6000/api/users/resetPassword/${resetToken}`
      //  console.log(resetToken);
      //  console.log(resetURL);
-     const message = `Forgot your Password? Submit a patch request with your password and confirm password to ${resetURL}.`
+     const message = `Forgot your Password? Your Reset Password Link is as follows:\n\n${resetURL}\n\n.Click on the above link`
      console.log(resetURL)
      try {
 
