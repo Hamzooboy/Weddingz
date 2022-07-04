@@ -22,7 +22,7 @@ router.get('/vendors/featuredVendors', vendorController.getFeaturedVendors)
 router.get('/getMyVendors', authController.protect, vendorController.getMyVendors)
 router.get('/vendors/:id', vendorController.getSingleVendor)
 router.patch('/vendors/:id', upload.array('photos'), authController.protect, authController.restrictTo('admin', 'vendor'), vendorController.updateVendor);
-router.patch('/approve/:id', authController.protect, authController.restrictTo('admin'), vendorController.updateStatus)
+router.patch('/approve/:id', authController.protect, authController.restrictTo('admin', 'vendor'), vendorController.updateStatus)
 router.patch('/vendors/makeFeatured/:id', authController.protect, authController.restrictTo('admin'), vendorController.makeFeatured)
 router.delete('/vendors/:id', authController.protect, authController.restrictTo('admin', 'vendor'), vendorController.deleteVendor);
 

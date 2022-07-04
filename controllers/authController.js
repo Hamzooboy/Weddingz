@@ -3,6 +3,7 @@
  const jwt = require('jsonwebtoken')
  const AppError = require('../utils/appError');
  //  const catchAsync = require('utils/catchAsync');
+ //  const Email = require('../utils/email');
  const sendEmail = require('../utils/email')
  const crypto = require('crypto');
  const { catchAsync } = require('catch-async-express');
@@ -24,6 +25,13 @@
              passwordChangedAt: req.body.passwordChangedAt,
              role: req.body.role
          });
+
+         //  const url = `${req.protocol}://${req.get('host')}`
+         //  console.log(url)
+         //      //  const message = 'Welcome to Weddingz!!'
+         //      //  const text = 'hello'
+         //  await new Email(newUser, url).sendWelcome();
+
          const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
              expiresIn: '3 days',
          })
@@ -39,7 +47,7 @@
          //  console.log(req.body)
          //  password = undefined;
 
-         res.status(200).json({
+         return res.status(200).json({
              status: 'success',
              token,
              data: {
@@ -48,7 +56,7 @@
          });
      } catch (err) {
 
-         res.status(404).json({
+         return res.status(404).json({
              status: 'error',
 
              message: err.message
@@ -103,17 +111,19 @@
 
      //send it to user's mail
      const resetURL = `${req.protocol}://${req.get('host')}/api/users/resetPassword/${resetToken}`;
+     //  const resetURL = `http://127.0.0.1:6000/api/users/resetPassword/${resetToken}`
      //  console.log(resetToken);
      //  console.log(resetURL);
      const message = `Forgot your Password? Submit a patch request with your password and confirm password to ${resetURL}.`
-
+     console.log(resetURL)
      try {
 
          await sendEmail({
-             email: user.email,
-             subject: 'Your password reset token(valid for 10 min)',
-             message
-         })
+                 email: user.email,
+                 subject: 'Your password reset token(valid for 10 min)',
+                 message
+             })
+             //  console.log(email)
 
          res.status(200).json({
              status: 'success',
@@ -124,8 +134,11 @@
          user.passwordResetExpires = undefined;
          await user.save({ validateBeforeSave: false });
 
-         return next(new AppError('There was an error sending the email. Please try again later!'), 500);
-
+         //  return next(new AppError('There was an error sending the email. Please try again later!'), 500);
+         res.status(500).json({
+             status: 'error',
+             message: err.message
+         })
      }
  }
 

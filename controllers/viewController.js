@@ -9,11 +9,11 @@ exports.getOverview = catchAsync(async function(req, res, next) {
     const venues = await Venue.find();
 
     res.status(200).json({
-        status: 'success',
-        title: 'All venues',
-        data: {
-            venues
-        }
-    })
-    next();
+            status: 'success',
+            title: 'All venues',
+            data: {
+                venues
+            }
+        })
+        // next();
 })
