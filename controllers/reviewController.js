@@ -5,6 +5,7 @@ const { catchAsync } = require('catch-async-express');
 const factory = require('./handlerFactory')
 
 exports.getAllReviews = catchAsync(async function(req, res, next) {
+    try{
     let filter = {};
     if (req.params.venueId) {
         filter = { venue: req.params.venueId }
@@ -21,10 +22,18 @@ exports.getAllReviews = catchAsync(async function(req, res, next) {
             reviews
         }
     })
+} catch (err) {
+    res.status(500).json({
+        status:'error',
+        message:err.message
+    })
+}
 })
 
 exports.createReview = catchAsync(async function(req, res, next) {
     //Allow Nested Routes
+
+try{
     if (!req.body.venue) {
         req.body.venue = req.params.venueId;
     }
@@ -42,6 +51,12 @@ exports.createReview = catchAsync(async function(req, res, next) {
             review: newReview
         }
     })
+}catch(err){
+    res.status(500).json({
+        status:'error',
+        message:err.message
+    })
+}
 })
 
 
