@@ -111,7 +111,7 @@
 
      //send it to user's mail
      const resetURL = `${req.protocol}://${req.get('host')}/api/users/resetPassword/${resetToken}`;
-     //  const resetURL = `http://127.0.0.1:6000/api/users/resetPassword/${resetToken}`
+     //  const resetURL = `http://localhost:6000/api/users/resetPassword/${resetToken}`
      //  console.log(resetToken);
      //  console.log(resetURL);
      const message = `Forgot your Password? Submit a patch request with your password and confirm password to ${resetURL}.`

@@ -44,7 +44,8 @@ const sendEmail = async function(options) {
             secure: false,
             auth: {
                 user: 'weddingzofficial@gmail.com',
-                pass: 'Weddingz@123'
+                pass: 'tcqptsmbgllaywrk'
+
             },
             tls: {
                 rejectUnauthorized: false
