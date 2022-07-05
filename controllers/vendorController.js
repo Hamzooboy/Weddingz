@@ -9,7 +9,7 @@ const factory = require('./handlerFactory')
 const { findByIdAndDelete } = require('../Models/venueModel');
 exports.createVendor = async function(req, res, next) {
     try {
-        const { title, userID, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, servicesOffered, industryExperience, paymentTerms, travelCost, isFeatured, isApproved } = req.body;
+        const { title, userID, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, servicesOffered, industryExperience, paymentTerms, travelCost, isFeatured, isApproved, area, address } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
 
         const urls = [];
@@ -45,6 +45,8 @@ exports.createVendor = async function(req, res, next) {
             travelCost,
             isFeatured,
             isApproved,
+            area,
+            address,
             photos: urls
         })
         res.status(200).json({
