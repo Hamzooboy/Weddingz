@@ -113,6 +113,12 @@ const vendorSchema = new mongoose.Schema({
     },
     address: {
         type: String
+    },
+    facebookUrl: {
+        type: String
+    },
+    instagramUrl: {
+        type: String
     }
 
 
