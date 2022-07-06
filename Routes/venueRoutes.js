@@ -26,7 +26,7 @@ router.get('/venues/marquees', venueController.getMarquees);
 router.get('/myVenues', authController.protect, venueController.getMyVenues)
 router.patch('/venues/:id', upload.array('photos'), authController.protect, authController.restrictTo('admin', 'vendor'), venueController.updateVenue);
 router.patch('/venues/makeFeatured/:id', authController.protect, authController.restrictTo('admin'), venueController.makeFeatured)
-router.patch('/venues/updateStatus/:id', authController.protect, authController.restrictTo('admin'), venueController.updateStatus)
+router.put('/venues/updateStatus/:id', authController.protect, authController.restrictTo('admin'), venueController.updateStatus)
 router.delete('/venues/:id', authController.protect, authController.restrictTo('admin', 'vendor'), venueController.deleteVenue)
 router.delete('/deleteMyVenue/:id', authController.protect, authController.restrictTo('admin', 'vendor'), venueController.deleteMyVenue)
 
