@@ -218,6 +218,24 @@ exports.deleteVenue = factory.deleteOne(Venue)
     //     return next();
 
 // }
+
+exports.updateStatus = async function(req, res, next) {
+    try {
+        const updatedVenue = await Venue.findByIdAndUpdate({ _id: req.params.id }, { isApproved: true })
+        res.status(200).json({
+            status: 'success',
+            data: {
+                updatedVenue
+            }
+        })
+
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
 exports.getFeaturedVenues = async function(req, res, next) {
     try {
         const venue = await Venue.aggregate([{
