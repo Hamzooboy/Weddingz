@@ -24,7 +24,7 @@ exports.createVenue = async function(req, res, next) {
         }
         // console.log('sadsad')
         // console.log(req.body);
-        const { title, userID, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking, isFeatured, company, area, address, facebookUrl, instagramUrl, menu, startingYear, advanceBooking, spacesAvailable, perHeadMorning, perHeadEvening, servicesOffered, industryExperience, paymentTerms, travelCost, facilitiesOffered, famousEvents, active } = req.body;
+        const { title, userID, ratingsAverage, ratingsQuantity, slug, description, price, coords, contactNo, createdAt, category, location, comments, imgCover, cateringPolicy, decorPolicy, DJPolicy, refundPolicy, kitchen, website, parking, isFeatured, company, area, address, facebookUrl, instagramUrl, menu, startingYear, advanceBooking, spacesAvailable, perHeadMorning, perHeadEvening, servicesOffered, industryExperience, paymentTerms, travelCost, facilitiesOffered, famousEvents, active, isApproved } = req.body;
         const uploader = async(path) => await cloudinary.uploads(path, 'Images');
         // console.log(req.body.category)
 
@@ -83,6 +83,7 @@ exports.createVenue = async function(req, res, next) {
             facilitiesOffered,
             famousEvents,
             active,
+            isApproved,
 
             photos: urls
         })
