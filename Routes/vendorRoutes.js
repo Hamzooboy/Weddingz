@@ -26,7 +26,7 @@ router.patch('/vendors/:id', upload.array('photos'), authController.protect, aut
 router.put('/approve/:id', authController.protect, authController.restrictTo('admin', 'vendor'), vendorController.updateStatus)
 router.patch('/vendors/makeFeatured/:id', authController.protect, authController.restrictTo('admin'), vendorController.makeFeatured)
 router.delete('/vendors/:id', authController.protect, authController.restrictTo('admin', 'vendor'), vendorController.deleteVendor);
-router.post('/vendors/:vendorId/reviews', authController.protect, authController.restrictTo('customer'), reviewController.createReview)
+router.post('/vendors/:vendorId/reviews', authController.protect, authController.restrictTo('customer', 'admin', 'vendor'), reviewController.createReview)
 router.get('/vendors/:vendorId/reviews', reviewController.getAllReviews)
 
 

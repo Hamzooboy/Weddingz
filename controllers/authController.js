@@ -25,12 +25,19 @@
              passwordChangedAt: req.body.passwordChangedAt,
              role: req.body.role
          });
+         //  if (!name || !email || !password || !confirmPassword) {
+         //      res.status(403).json
+         //  }
 
          //  const url = `${req.protocol}://${req.get('host')}`
          //  console.log(url)
-         //      //  const message = 'Welcome to Weddingz!!'
-         //      //  const text = 'hello'
-         //  await new Email(newUser, url).sendWelcome();
+         const message = 'Welcome to Weddingz!!'
+         await sendEmail({
+                 email: newUser.email,
+                 subject: 'Welcome',
+                 message
+             }) //      //  const text = 'hello'
+             //  await new Email(newUser, url).sendWelcome();
 
          const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
              expiresIn: '3 days',
