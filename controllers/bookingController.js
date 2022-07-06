@@ -14,12 +14,12 @@ const { compareSync } = require("bcryptjs");
 
 exports.getCheckoutSession = catchAsync(async function(req, res, next) {
     //Getting the currently Booked Vendor or Venue
-    const baseURL=req.get('host') === 'localhost:6000' ? 'localhost:3000' : 'weddingzofficial.herokuapp.com'
+    const baseURL = req.get('host') === 'localhost:6000' ? 'localhost:3000' : 'weddingzofficial.herokuapp.com'
     const { slot, date } = req.query
     const venue = await Venue.findById(req.params.venueId);
     // const vendor = await Vendor.findById(req.params.vendorId);
-    const bookDetail = await Booking.findOne({ slot: slot, createdAt: date,venue:req.params.venueId })
-    //Creating Checkout Session
+    const bookDetail = await Booking.findOne({ slot: slot, createdAt: date, venue: req.params.venueId })
+        //Creating Checkout Session
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         success_url: `${req.protocol}://${baseURL}/paymentsuccessfull?venue=${
@@ -32,7 +32,7 @@ exports.getCheckoutSession = catchAsync(async function(req, res, next) {
             name: `${venue.title} Venue`,
             description: venue.description,
             // images:[`Can only be implemented once the website is live`]
-            amount: bookDetail.price*100,
+            amount: bookDetail.price * 100,
             currency: "pkr",
             quantity: 1,
         }, ],
@@ -136,14 +136,31 @@ exports.getMyBookings = async function(req, res, next) {
         });
     }
 };
+exports.getVendorBookings = async function(req, res, next) {
+    try {
+        const bookings = await Booking.find({ user: req.user.id })
+        res.status(200).json({
+            status: "success",
+            results: bookings.length,
+            data: {
+                bookings
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: "error",
+            message: err.message
+        })
+    }
+}
 
 exports.getAllBookings = async function(req, res, next) {
     try {
-        let filter = {};
-        if (req.params.venueId) {
-            filter = { venue: req.params.venueId };
-        }
-        const bookings = await Booking.find(filter);
+        // let filter = {};
+        // if (req.params.venueId) {
+        //     filter = { venue: req.params.venueId };
+        // }
+        const bookings = await Booking.find();
         res.status(200).json({
             status: "success",
             results: bookings.length,

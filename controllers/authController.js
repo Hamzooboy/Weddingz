@@ -110,7 +110,9 @@
      await user.save({ validateBeforeSave: false });
 
      //send it to user's mail
-     const resetURL = `${req.protocol}://${req.get('host')}/resetPassword/${resetToken}`;
+     //  const resetURL = `${req.protocol}://${req.get('host')}/resetPassword/${resetToken}`;
+     const resetURL = `https://weddingzofficial.herokuapp.com/resetPassword/${resetToken}`;
+
      //  const resetURL = `http://localhost:6000/api/users/resetPassword/${resetToken}`
      //  console.log(resetToken);
      //  console.log(resetURL);
