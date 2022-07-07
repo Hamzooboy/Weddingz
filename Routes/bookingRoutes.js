@@ -30,6 +30,7 @@ router.get(
     bookingController.getBooking
 );
 router.get('/getVendorBooking', authController.protect, authController.restrictTo("admin", 'vendor'), bookingController.getVendorBookings);
+router.get('/getVenueBookings/:id', authController.protect, authController.restrictTo("admin", 'vendor'), bookingController.getVenueBookings)
 router.delete(
     "/deleteBooking/:id",
     authController.protect,

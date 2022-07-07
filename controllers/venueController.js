@@ -274,6 +274,22 @@ exports.makeFeatured = async function(req, res, next) {
 
     }
 }
+exports.makeUnfeatured = async function(req, res, next) {
+    try {
+        const venue = await Venue.findByIdAndUpdate({ _id: req.params.id }, { isFeatured: false })
+        res.status(200).json({
+            status: 'success',
+            data: {
+                venue
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
 
 exports.getBanquetHalls = async function(req, res, next) {
     try {

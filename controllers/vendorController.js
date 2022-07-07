@@ -169,6 +169,25 @@ exports.makeFeatured = async function(req, res, next) {
         })
     }
 }
+exports.makeUnfeatured = async function(req, res, next) {
+    try {
+        const vendor = await Vendor.findByIdAndUpdate({ _id: req.params.id }, { isFeatured: false })
+        res.status(200).json({
+            status: 'success',
+            data: {
+                vendor
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
+
+
+
 
 exports.deleteVendor = factory.deleteOne(Vendor)
 

@@ -64,6 +64,30 @@ exports.getBookingDetail = catchAsync(async(req, res, next) => {
     });
 });
 
+exports.getVenueBookings = async(req, res, next) => {
+    try {
+        // let filter = {};
+        // if (req.params.venueId) {
+        //     filter = { venue: req.params.venueId }
+        // }
+        const { venueId } = req.params.id;
+        console.log(venueId)
+        const bookings = await Booking.find(venueId)
+        res.status(200).json({
+            status: "Success",
+            // results: bookings.length,
+            data: {
+                bookings
+            }
+        })
+    } catch (err) {
+        res.status(500).json({
+            status: "Error",
+            message: err.message
+        })
+    }
+}
+
 exports.createBookingCheckout = catchAsync(async function(req, res, next) {
     // const url_parts = url.parse(req.url, true);
     // const query = url_parts.query;
@@ -156,11 +180,11 @@ exports.getVendorBookings = async function(req, res, next) {
 
 exports.getAllBookings = async function(req, res, next) {
     try {
-        // let filter = {};
-        // if (req.params.venueId) {
-        //     filter = { venue: req.params.venueId };
-        // }
-        const bookings = await Booking.find();
+        let filter = {};
+        if (req.params.venueId) {
+            filter = { venue: req.params.venueId };
+        }
+        const bookings = await Booking.find(filter);
         res.status(200).json({
             status: "success",
             results: bookings.length,
