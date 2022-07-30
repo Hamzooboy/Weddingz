@@ -1,3 +1,7 @@
+## Deployed Link
+https://weddingzofficial.herokuapp.com/
+
+
 # Weddingz API
 
 ## Step 1 - Clone the Repo
